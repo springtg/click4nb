@@ -1,0 +1,8 @@
+package ${package};
+
+
+public class NotAuthorizedPage extends BorderPage {
+
+    public String title = "Not Authorized";
+
+}

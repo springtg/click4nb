@@ -1,0 +1,9 @@
+package ${package}.user;
+
+import ${package}.BorderPage;
+
+public class User1Page extends BorderPage {
+
+    public String title = "User 1 Page";
+
+}
