@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: nbx.cayenne.modeler.integration
-OpenIDE-Module-Layer: nbx/cayenne/modeler/integration/layer.xml
-OpenIDE-Module-Localizing-Bundle: nbx/cayenne/modeler/integration/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-

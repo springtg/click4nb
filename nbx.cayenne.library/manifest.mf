@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: nbx.cayenne.library
-OpenIDE-Module-Layer: nbx/cayenne/library/layer.xml
-OpenIDE-Module-Localizing-Bundle: nbx/cayenne/library/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-
