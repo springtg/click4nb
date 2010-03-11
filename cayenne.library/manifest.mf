@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+OpenIDE-Module-Name: Cayenne Library
+OpenIDE-Module: org.netbeans.modules.cayenne.library
+OpenIDE-Module-Layer: org/netbeans/modules/cayenne/library/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/netbeans/modules/cayenne/library/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

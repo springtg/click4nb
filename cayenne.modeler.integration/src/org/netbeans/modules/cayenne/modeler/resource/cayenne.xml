@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<domains project-version="3.0.0.1">
+    <domain name="${name}">
+        <map name="${name}Map" location="${name}Map.map.xml"/>
+
+        <node name="${name}Node"
+       datasource="${name}Node.driver.xml"
+       factory="org.apache.cayenne.conf.DriverDataSourceFactory">
+            <map-ref name="${name}Map"/>
+        </node>
+    </domain>
+</domains>
