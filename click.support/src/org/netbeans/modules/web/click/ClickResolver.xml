@@ -9,8 +9,14 @@ and open the template in the editor.
         <ext name="xml"/>
         <resolver mime="text/x-clickapp+xml">
             <xml-rule>
-               <!-- <doctype public-id="-//Apache Software Foundation//DTD Click App Configuration 2.1//EN"/>
-               -->
+                <doctype public-id="-//Apache Software Foundation//DTD Click Configuration 2.1//EN"/>
+            </xml-rule>
+        </resolver>
+    </file>
+    <file>
+        <ext name="xml"/>
+        <resolver mime="text/x-clickapp+xml">
+            <xml-rule>
               <element name="click-app"/>
             </xml-rule>
         </resolver>

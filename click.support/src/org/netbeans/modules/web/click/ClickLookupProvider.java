@@ -29,7 +29,6 @@ public class ClickLookupProvider implements LookupProvider {
         if (provider != null) {
             return Lookups.fixed(new Object[]{new ClickProjectOpenHookImpl(proj)});
         }
-
         return Lookups.fixed();
     }
 
@@ -48,21 +47,23 @@ public class ClickLookupProvider implements LookupProvider {
 
         @Override
         protected void projectOpened() {
-            if (currentTask == null) {
-                currentTask = PROJ_OPEN_HOOK_RESYNCHRONIZER.create(new Runnable() {
+            if (ClickProjectQuery.isClick(project)) {
+                if (currentTask == null) {
+                    currentTask = PROJ_OPEN_HOOK_RESYNCHRONIZER.create(new Runnable() {
 
-                    public void run() {
-                        ClickResourceTracker.initialize(project);
-                    }
-                });
+                        public void run() {
+                            ClickResourceTracker.initialize(project);
+                        }
+                    });
+                }
+                currentTask.schedule(10000);
             }
-            currentTask.schedule(10000);
         }
 
         @Override
         protected void projectClosed() {
-            if (currentTask != null && !currentTask.isFinished()) {
-                currentTask.waitFinished();
+            if (currentTask != null) {
+                currentTask.cancel();
             }
         }
     }
