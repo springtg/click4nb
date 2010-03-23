@@ -13,12 +13,21 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import org.netbeans.api.java.project.JavaProjectConstants;
 import org.netbeans.api.project.Project;
-import org.netbeans.modules.j2ee.dd.api.web.DDProvider;
+import org.netbeans.api.project.ProjectUtils;
+import org.netbeans.api.project.SourceGroup;
+import org.netbeans.api.project.Sources;
 import org.netbeans.modules.j2ee.dd.api.web.Servlet;
 import org.netbeans.modules.j2ee.dd.api.web.WebApp;
 import org.netbeans.modules.web.api.webmodule.WebModule;
-import org.netbeans.modules.web.common.util.WebModuleUtilities;
+import org.netbeans.modules.web.click.api.model.ClickModel;
+import org.netbeans.modules.web.click.api.model.ClickModelFactory;
+import org.netbeans.modules.web.click.api.model.MenuModel;
+import org.netbeans.modules.web.click.api.model.MenuModelFactory;
+import org.netbeans.modules.web.spi.webmodule.WebModuleProvider;
+import org.netbeans.modules.xml.retriever.catalog.Utilities;
+import org.netbeans.modules.xml.xam.ModelSource;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.filesystems.URLMapper;
@@ -38,7 +47,8 @@ public class ClickConfigUtilities {
     public static FileObject getClickConfigFile(Project project, String filename) {
         Parameters.notNull("Parameter project can not be null", project);
         FileObject target = null;
-        WebModule wm = WebModuleUtilities.getWebModule(project);
+
+        WebModule wm = WebModule.getWebModule(project.getProjectDirectory());
 
         if (wm == null) {
             return null;
@@ -49,31 +59,45 @@ public class ClickConfigUtilities {
             return target;
         }
 
-        FileObject resourceGroup = WebModuleUtilities.getResourcesRoot(project);
-        if (resourceGroup != null) {
-            target = resourceGroup.getFileObject(filename);
+        Sources sources = ProjectUtils.getSources(project);
+        SourceGroup[] resourceGroups = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_RESOURCES);
+        for (SourceGroup sg : resourceGroups) {
+            target = sg.getRootFolder().getFileObject(filename);
+            if (target != null) {
+                return target;
+            }
         }
+
+        resourceGroups = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
+        for (SourceGroup sg : resourceGroups) {
+            target = sg.getRootFolder().getFileObject(filename);
+            if (target != null) {
+                return target;
+            }
+        }
+
         return target;
 
     }
 
-    public static boolean isClickProject(WebModule wm) {
-        if (wm == null) {
-            return false;
-        }
-        try {
-            FileObject webXml=wm.getDeploymentDescriptor();
-            WebApp wa = DDProvider.getDefault().getDDRoot(webXml);
-            if (wa != null) {
-                return (ClickConfigUtilities.findServlet(wa, ClickConstants.CLICK_SERVELT_CLASS) != null)
-                        || (ClickConfigUtilities.findServlet(wa, ClickConstants.SPRING_CLICK_SERVELT_CLASS) != null);
-            }
-        } catch (IOException ex) {
-            return false;
-        }
-        return false;
-    }
-
+//    public static boolean isClickProject(WebModule wm) {
+//        if (wm == null) {
+//            return false;
+//        }
+//        try {
+//            FileObject webXml = wm.getDeploymentDescriptor();
+//            if(webXml!=null){
+//            WebApp wa = DDProvider.getDefault().getDDRoot(webXml);
+//            if (wa != null) {
+//                return (ClickConfigUtilities.findServlet(wa, ClickConstants.CLICK_SERVELT_CLASS) != null)
+//                        || (ClickConfigUtilities.findServlet(wa, ClickConstants.SPRING_CLICK_SERVELT_CLASS) != null);
+//            }
+//            }
+//        } catch (IOException ex) {
+//            return false;
+//        }
+//        return false;
+//    }
     /**
      * Returns true if the specified classpath contains a class of the given name,
      * false otherwise.
@@ -162,5 +186,19 @@ public class ClickConfigUtilities {
             }
         }
         return false;
+    }
+
+    public static ClickModel getClickModel(FileObject fo, boolean editable) {
+        Parameters.notNull("ClickModel source file object can not be null", fo);
+        ModelSource source = Utilities.getModelSource(fo, editable);
+
+        return ClickModelFactory.getInstance().getModel(source);
+    }
+
+    public static MenuModel getMenuModel(FileObject fo, boolean editable) {
+        Parameters.notNull("MenuModel source file object can not be null", fo);
+        ModelSource source = Utilities.getModelSource(fo, editable);
+
+        return MenuModelFactory.getInstance().getModel(source);
     }
 }

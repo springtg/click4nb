@@ -7,10 +7,9 @@ package org.netbeans.modules.web.click.wizards;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.lang.model.element.TypeElement;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
@@ -21,13 +20,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentListener;
+import org.netbeans.api.java.source.ClasspathInfo;
+import org.netbeans.api.java.source.ElementHandle;
+import org.netbeans.api.java.source.ui.TypeElementFinder;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
+import org.netbeans.modules.web.api.webmodule.WebModule;
 import org.netbeans.modules.web.api.webmodule.WebProjectConstants;
 import org.netbeans.modules.web.click.editor.ClickEditorUtilities;
-import org.netbeans.modules.web.common.util.WebModuleUtilities;
 import org.netbeans.spi.java.project.support.ui.PackageView;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -58,7 +60,7 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
         cmbPackage.addActionListener(this);
         textSuperClass.getDocument().addDocumentListener(this);
         textTemplateFileName.getDocument().addDocumentListener(this);
-        txtWebFolder.getDocument().addDocumentListener(this);
+        textWebFolder.getDocument().addDocumentListener(this);
 
         cmbSourceFolder.setRenderer(new GroupListCellRenderer());
         cmbPackage.setRenderer(PackageView.listRenderer());
@@ -97,7 +99,7 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
         jLabel6 = new javax.swing.JLabel();
         textTemplateFileName = new javax.swing.JTextField();
         lbWebFolder = new javax.swing.JLabel();
-        txtWebFolder = new javax.swing.JTextField();
+        textWebFolder = new javax.swing.JTextField();
         btBrowseWebFolder = new javax.swing.JButton();
         clsPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -108,6 +110,7 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
         cmbPackage = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
         textSuperClass = new javax.swing.JTextField();
+        btBrowseSuperClass = new javax.swing.JButton();
         cmbTemplates = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         cbxAddMapping = new javax.swing.JCheckBox();
@@ -132,10 +135,10 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
 
         org.openide.awt.Mnemonics.setLocalizedText(lbWebFolder, org.openide.util.NbBundle.getMessage(ClickPageVisualPanel1.class, "ClickPageVisualPanel1.lbWebFolder.text")); // NOI18N
 
-        txtWebFolder.setText(org.openide.util.NbBundle.getMessage(ClickPageVisualPanel1.class, "ClickPageVisualPanel1.txtWebFolder.text")); // NOI18N
+        textWebFolder.setText(org.openide.util.NbBundle.getMessage(ClickPageVisualPanel1.class, "ClickPageVisualPanel1.textWebFolder.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(btBrowseWebFolder, org.openide.util.NbBundle.getMessage(ClickPageVisualPanel1.class, "ClickPageVisualPanel1.btBrowseWebFolder.text")); // NOI18N
-        btBrowseWebFolder.setPreferredSize(new java.awt.Dimension(88, 24));
+        btBrowseWebFolder.setPreferredSize(new java.awt.Dimension(80, 21));
         btBrowseWebFolder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btBrowseWebFolderActionPerformed(evt);
@@ -156,10 +159,10 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
                             .addComponent(lbWebFolder))
                         .addGap(26, 26, 26)
                         .addGroup(htmlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtWebFolder, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                            .addComponent(textTemplateFileName, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE))
+                            .addComponent(textWebFolder, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                            .addComponent(textTemplateFileName, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btBrowseWebFolder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btBrowseWebFolder, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         htmlPanelLayout.setVerticalGroup(
@@ -173,7 +176,7 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(htmlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbWebFolder)
-                    .addComponent(txtWebFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textWebFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btBrowseWebFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -198,6 +201,14 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
 
         textSuperClass.setText("org.apache.click.Page");
 
+        org.openide.awt.Mnemonics.setLocalizedText(btBrowseSuperClass, org.openide.util.NbBundle.getMessage(ClickPageVisualPanel1.class, "ClickPageVisualPanel1.btBrowseSuperClass.text")); // NOI18N
+        btBrowseSuperClass.setPreferredSize(new java.awt.Dimension(80, 21));
+        btBrowseSuperClass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBrowseSuperClassActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout clsPanelLayout = new javax.swing.GroupLayout(clsPanel);
         clsPanel.setLayout(clsPanelLayout);
         clsPanelLayout.setHorizontalGroup(
@@ -211,11 +222,14 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(clsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textSuperClass, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(clsPanelLayout.createSequentialGroup()
+                        .addComponent(textSuperClass, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btBrowseSuperClass, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
                     .addComponent(cmbPackage, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textClassName, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbSourceFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addContainerGap())
         );
         clsPanelLayout.setVerticalGroup(
             clsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,7 +248,8 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(clsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(textSuperClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textSuperClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btBrowseSuperClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -262,6 +277,9 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
                     .addComponent(cbxAddMapping, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {clsPanel, htmlPanel});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -285,12 +303,12 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
     private void cbxTemplateFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTemplateFileActionPerformed
         if (!cbxTemplateFile.isSelected()) {
             textTemplateFileName.setEditable(false);
-            txtWebFolder.setEnabled(false);
+            textWebFolder.setEnabled(false);
             btBrowseWebFolder.setEnabled(false);
             cbxAddMapping.setEnabled(false);
         } else {
             textTemplateFileName.setEditable(true);
-            txtWebFolder.setEnabled(true);
+            textWebFolder.setEnabled(true);
             btBrowseWebFolder.setEnabled(true);
             cbxAddMapping.setEnabled(true);
         }
@@ -302,12 +320,12 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
         org.netbeans.api.project.SourceGroup[] webGroups = sources.getSourceGroups(WebProjectConstants.TYPE_DOC_ROOT);
         org.openide.filesystems.FileObject fo = BrowseFolders.showDialog(webGroups, false);
         if (fo != null) {
-            FileObject webRoot = WebModuleUtilities.getWebModule(project).getDocumentBase();
+            FileObject webRoot = WebModule.getWebModule(project.getProjectDirectory()).getDocumentBase();
             String relativePath = "";
             if (webRoot != null && fo != null && FileUtil.isParentOf(webRoot, fo)) {
                 relativePath = FileUtil.getRelativePath(webRoot, fo);
             }
-            txtWebFolder.setText(relativePath);
+            textWebFolder.setText(relativePath);
         }
 
     }//GEN-LAST:event_btBrowseWebFolderActionPerformed
@@ -315,7 +333,18 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
     private void textClassNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textClassNameFocusLost
         updateText();
     }//GEN-LAST:event_textClassNameFocusLost
+
+    private void btBrowseSuperClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBrowseSuperClassActionPerformed
+
+        ElementHandle<TypeElement> type = TypeElementFinder.find(ClasspathInfo.create(this.project.getProjectDirectory()), null);
+
+        if (type != null) {
+            textSuperClass.setText(type.getQualifiedName());
+        }
+
+    }//GEN-LAST:event_btBrowseSuperClassActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btBrowseSuperClass;
     private javax.swing.JButton btBrowseWebFolder;
     private javax.swing.JCheckBox cbxAddMapping;
     private javax.swing.JCheckBox cbxTemplateFile;
@@ -336,7 +365,7 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
     private javax.swing.JTextField textProject;
     private javax.swing.JTextField textSuperClass;
     private javax.swing.JTextField textTemplateFileName;
-    private javax.swing.JTextField txtWebFolder;
+    private javax.swing.JTextField textWebFolder;
     // End of variables declaration//GEN-END:variables
 
     public void initValues(FileObject preselectedFolder) {
@@ -400,7 +429,7 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
 
     public String getTemplateFilePath() {
         String fileName = textTemplateFileName.getText() == null ? "" : textTemplateFileName.getText().trim();
-        String folderName = txtWebFolder.getText() == null ? "" : txtWebFolder.getText().trim();
+        String folderName = textWebFolder.getText() == null ? "" : textWebFolder.getText().trim();
         if (folderName.length() > 0) {
 
             if (!folderName.endsWith("/")) {
@@ -412,7 +441,7 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
     }
 
     public String getWebFolder() {
-        return txtWebFolder.getText();
+        return textWebFolder.getText();
     }
 
     public boolean requireCreateTemplateFile() {
@@ -571,7 +600,9 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
 
     private void updateText() {
         //do not compute the page name unless it is enabled.
-        if(!cbxTemplateFile.isSelected()) return ;
+        if (!cbxTemplateFile.isSelected()) {
+            return;
+        }
 
         if (null == getTemplateFileName() || "".equals(getTemplateFileName().trim())) {
             String classname = getPageClassName();

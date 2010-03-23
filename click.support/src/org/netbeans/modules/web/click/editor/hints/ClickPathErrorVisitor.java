@@ -32,10 +32,11 @@ import org.netbeans.modules.web.click.api.model.Page;
 import org.netbeans.modules.web.click.api.model.Pages;
 import org.netbeans.modules.web.click.api.model.TemplateService;
 import org.netbeans.modules.web.click.api.model.impl.ClickAttributes;
-import org.netbeans.modules.web.click.api.model.utils.ClickModelUtilities;
 import org.netbeans.modules.web.click.editor.JavaUtils;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.netbeans.modules.web.api.webmodule.WebModule;
+import org.netbeans.modules.web.click.ClickConfigUtilities;
+import org.netbeans.modules.web.click.api.model.ClassNameComponent;
 import org.netbeans.modules.web.click.api.model.Control;
 import org.netbeans.modules.web.click.editor.ClickEditorUtilities;
 import org.netbeans.modules.xml.xam.Model;
@@ -85,7 +86,7 @@ public class ClickPathErrorVisitor extends ClickVisitor.Deep {
     public ClickPathErrorVisitor(Document doc) {
         this.document = doc;
         this.docFO = NbEditorUtilities.getFileObject(document);
-        this.model = ClickModelUtilities.getClickModel(docFO, false);
+        this.model = ClickConfigUtilities.getClickModel(docFO, false);
 
 //        docFO.addFileChangeListener(FileUtil.weakFileChangeListener(
 //                new FileChangeAdapter() {
@@ -235,19 +236,9 @@ public class ClickPathErrorVisitor extends ClickVisitor.Deep {
             return;
         }
         String clz = null;
-        if (component instanceof Page) {
-            clz = ((Page) component).getClassName();
-        } else if (component instanceof Format) {
-            clz = ((Format) component).getClassName();
-        } else if (component instanceof FileUploadService) {
-            clz = ((FileUploadService) component).getClassName();
-        } else if (component instanceof LogService) {
-            clz = ((LogService) component).getClassName();
-        } else if (component instanceof TemplateService) {
-            clz = ((TemplateService) component).getClassName();
-        } else if (component instanceof Control) {
-            clz = ((Control) component).getClassName();
-        }
+        if (component instanceof ClassNameComponent) {
+            clz = ((ClassNameComponent) component).getClassName();
+        } 
 
         final String classname = clz;
         if (classname != null && !"".equals(classname)) {
@@ -263,7 +254,15 @@ public class ClickPathErrorVisitor extends ClickVisitor.Deep {
                             TypeElement element = elements.getTypeElement(classname.trim());
                             if (element == null) {
                                 computeAttributeValuePosition(component, ClickAttributes.CLASSNAME.getName());
-                                errList.add(ErrorDescriptionFactory.createErrorDescription(Severity.WARNING, WARN_CLASS, document, NbDocument.createPosition(document, startPosition, Bias.Forward), NbDocument.createPosition(document, endPosition, Bias.Backward)));
+                                errList.add(
+                                            ErrorDescriptionFactory.createErrorDescription(
+                                                Severity.WARNING,
+                                                WARN_CLASS,
+                                                document,
+                                                document.createPosition(startPosition),
+                                                document.createPosition( endPosition)
+                                                )
+                                            );
                             }
                         }
                     }

@@ -1,7 +1,6 @@
 package org.netbeans.modules.web.click.api;
 
 import java.util.Collection;
-import org.netbeans.api.project.Project;
 import org.netbeans.modules.web.click.spi.ClickComponentQueryImplementation;
 import org.openide.filesystems.FileObject;
 import org.openide.util.Lookup;

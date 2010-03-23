@@ -6,6 +6,7 @@ package org.netbeans.modules.web.click;
 
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.web.click.api.ClickProjectQuery;
+import org.netbeans.modules.web.spi.webmodule.WebModuleProvider;
 import org.netbeans.spi.project.LookupProvider;
 import org.netbeans.spi.project.ui.ProjectOpenedHook;
 import org.openide.util.Lookup;
@@ -17,21 +18,24 @@ import org.openide.util.lookup.Lookups;
  * @author hantsy
  */
 @LookupProvider.Registration(projectTypes =
-@LookupProvider.Registration.ProjectType(id = "org-netbeans-modules-web-project", position = 300))
+@LookupProvider.Registration.ProjectType(id = "org-netbeans-modules-web-project",
+position = 300))
 public class ClickLookupProvider implements LookupProvider {
 
     public Lookup createAdditionalLookup(Lookup baseContext) {
-        Project proj = baseContext.getDefault().lookup(Project.class);
-        if (proj != null && ClickProjectQuery.isClick(proj)) {
+        Project proj = baseContext.lookup(Project.class);
+
+        WebModuleProvider provider = proj.getLookup().lookup(WebModuleProvider.class);
+        if (provider != null) {
             return Lookups.fixed(new Object[]{new ClickProjectOpenHookImpl(proj)});
-        } else {
-            return Lookup.EMPTY;
         }
+
+        return Lookups.fixed();
     }
 
     private static final class ClickProjectOpenHookImpl extends ProjectOpenedHook {
 
-        private static final RequestProcessor PROJ_OPEN_HOOK_RESYNCHRONIZER = new RequestProcessor("Eclipse.Resynchronizer"); // NOI18N
+        private static final RequestProcessor PROJ_OPEN_HOOK_RESYNCHRONIZER = new RequestProcessor("ClickResourceTracker"); // NOI18N
         private static RequestProcessor.Task currentTask;
 
         public ClickProjectOpenHookImpl() {
@@ -48,17 +52,18 @@ public class ClickLookupProvider implements LookupProvider {
                 currentTask = PROJ_OPEN_HOOK_RESYNCHRONIZER.create(new Runnable() {
 
                     public void run() {
-                        ClickResourceFinder.initialize(project);
+                        ClickResourceTracker.initialize(project);
                     }
                 });
             }
-            // coalesce events from multiple project being opened.
             currentTask.schedule(10000);
         }
 
         @Override
         protected void projectClosed() {
-            //throw new UnsupportedOperationException("Not supported yet.");
+            if (currentTask != null && !currentTask.isFinished()) {
+                currentTask.waitFinished();
+            }
         }
     }
 }

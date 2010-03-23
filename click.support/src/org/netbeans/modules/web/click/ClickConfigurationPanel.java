@@ -89,7 +89,6 @@ public class ClickConfigurationPanel extends javax.swing.JPanel {
         mainPanel = new javax.swing.JPanel();
         lbPagesPackage = new javax.swing.JLabel();
         txtPagesPackage = new javax.swing.JTextField();
-        cbxCreateExample = new javax.swing.JCheckBox();
         cbxSpringSupport = new javax.swing.JCheckBox();
         cbxCompressionFilter = new javax.swing.JCheckBox();
         cbxPerfermanceFilter = new javax.swing.JCheckBox();
@@ -106,8 +105,6 @@ public class ClickConfigurationPanel extends javax.swing.JPanel {
 
         txtPagesPackage.setText(DEFAULT_PAGES_PACKAGE);
 
-        cbxCreateExample.setText(org.openide.util.NbBundle.getMessage(ClickConfigurationPanel.class, "ClickConfigurationPanel.cbxCreateExample.text")); // NOI18N
-
         cbxSpringSupport.setText(org.openide.util.NbBundle.getMessage(ClickConfigurationPanel.class, "ClickConfigurationPanel.cbxSpringSupport.text")); // NOI18N
 
         cbxCompressionFilter.setText(org.openide.util.NbBundle.getMessage(ClickConfigurationPanel.class, "ClickConfigurationPanel.cbxCompressionFilter.text")); // NOI18N
@@ -123,48 +120,56 @@ public class ClickConfigurationPanel extends javax.swing.JPanel {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
-            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(mainPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(cbxCreateExample)
-                        .addComponent(cbxSpringSupport)
-                        .addComponent(cbxCompressionFilter)
-                        .addComponent(cbxPerfermanceFilter)
-                        .addGroup(mainPanelLayout.createSequentialGroup()
-                            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lbPagesPackage)
-                                .addComponent(lbMode))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtPagesPackage, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
-                                .addComponent(cmbMode, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addContainerGap()))
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbMode)
+                    .addComponent(lbPagesPackage))
+                .addGap(2, 2, 2)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(txtPagesPackage, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                        .addGap(22, 22, 22))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(cmbMode, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cbxCompressionFilter)
+                .addContainerGap(197, Short.MAX_VALUE))
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cbxPerfermanceFilter)
+                .addContainerGap(203, Short.MAX_VALUE))
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cbxSpringSupport)
+                .addContainerGap(239, Short.MAX_VALUE))
         );
+
+        mainPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbMode, lbPagesPackage});
+
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 194, Short.MAX_VALUE)
-            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                    .addContainerGap(30, Short.MAX_VALUE)
-                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lbPagesPackage)
-                        .addComponent(txtPagesPackage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lbMode)
-                        .addComponent(cmbMode, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
-                    .addComponent(cbxCreateExample)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(cbxSpringSupport)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(cbxCompressionFilter)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(cbxPerfermanceFilter)
-                    .addContainerGap()))
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbPagesPackage)
+                    .addComponent(txtPagesPackage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbMode)
+                    .addComponent(cmbMode, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addComponent(cbxSpringSupport)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbxCompressionFilter)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbxPerfermanceFilter)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        mainPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbxCompressionFilter, cbxPerfermanceFilter, cbxSpringSupport});
 
         configPanel.addTab(org.openide.util.NbBundle.getMessage(ClickConfigurationPanel.class, "ClickConfigurationPanel.mainPanel.TabConstraints.tabTitle"), mainPanel); // NOI18N
 
@@ -184,6 +189,8 @@ public class ClickConfigurationPanel extends javax.swing.JPanel {
             }
         });
 
+        cbxLibraries.setMinimumSize(new java.awt.Dimension(120, 21));
+        cbxLibraries.setPreferredSize(new java.awt.Dimension(120, 21));
         cbxLibraries.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxLibrariesActionPerformed(evt);
@@ -202,7 +209,7 @@ public class ClickConfigurationPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxLibraries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(rbNoneLib))
-                .addContainerGap(209, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
         lbPanelLayout.setVerticalGroup(
             lbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,7 +220,7 @@ public class ClickConfigurationPanel extends javax.swing.JPanel {
                     .addComponent(cbxLibraries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rbNoneLib)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         configPanel.addTab(org.openide.util.NbBundle.getMessage(ClickConfigurationPanel.class, "ClickConfigurationPanel.lbPanel.TabConstraints.tabTitle"), lbPanel); // NOI18N
@@ -243,7 +250,6 @@ public class ClickConfigurationPanel extends javax.swing.JPanel {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbxCompressionFilter;
-    private javax.swing.JCheckBox cbxCreateExample;
     private javax.swing.JComboBox cbxLibraries;
     private javax.swing.JCheckBox cbxPerfermanceFilter;
     private javax.swing.JCheckBox cbxSpringSupport;
@@ -263,9 +269,6 @@ public class ClickConfigurationPanel extends javax.swing.JPanel {
         return txtPagesPackage.getText();
     }
 
-    public boolean requireCreateExample() {
-        return cbxCreateExample.isSelected();
-    }
 
     public boolean compressionFilterEnabled() {
         return cbxCompressionFilter.isSelected();

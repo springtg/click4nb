@@ -11,16 +11,11 @@ import java.util.List;
  *
  * @author hantsy
  */
-public interface  ServiceComponent extends ClickComponent{
+public interface  ServiceComponent extends ClassNameComponent{
     //Attributs
-    public static final String  PROP_CLASSNAME="classname";
-
     //Elements
     public static final String PROP_PROPERTY="property";
     
-    String getClassName();
-    void setClassName(String classname);
-
     List<Property> getPropertyList();
     void addProperty(Property property);
     void removeProperty(Property pro);

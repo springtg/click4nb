@@ -16,7 +16,7 @@ import javax.swing.ListSelectionModel;
  *
  * @author hantsy
  */
-public class TemplateSelectionPanel extends javax.swing.JPanel{
+public class TemplateSelectionPanel extends javax.swing.JPanel {
 
     /** Creates new form TemplateFilesPanel */
     private String[] templatePaths = null;
@@ -38,12 +38,8 @@ public class TemplateSelectionPanel extends javax.swing.JPanel{
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        jList1 = new javax.swing.JList(templatePaths);
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            public int getSize() { return templatePaths.length; }
-            public Object getElementAt(int i) { return templatePaths[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -67,7 +63,6 @@ public class TemplateSelectionPanel extends javax.swing.JPanel{
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-
 
     public int getSelectionIndex() {
         return jList1.getSelectedIndex();

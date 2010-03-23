@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
+import org.netbeans.modules.web.click.ClickConfigUtilities;
 import org.netbeans.modules.web.click.api.model.ClickModel;
 import org.netbeans.modules.web.click.api.model.impl.ClickModelImpl;
-import org.netbeans.modules.web.click.api.model.utils.ClickModelUtilities;
 import org.netbeans.modules.web.click.editor.hints.ClickPathErrorVisitor;
 import org.netbeans.spi.editor.hints.ErrorDescription;
 import org.netbeans.spi.editor.hints.Severity;
@@ -61,7 +61,7 @@ public class TaskListBridge extends FileTaskScanner {
         if (resource != null && "text/x-clickapp+xml".equals(resource.getMIMEType())) {
             LOGGER.log(Level.FINEST, "scan click.xml");
             List<Task> tasks = new ArrayList<Task>();
-            ClickModel model = ClickModelUtilities.getClickModel(resource, false);
+            ClickModel model = ClickConfigUtilities.getClickModel(resource, false);
             List<ErrorDescription> errs = new ClickPathErrorVisitor(((ClickModelImpl) model).getBaseDocument()).getErrorDescriptions();
             for (ErrorDescription error : errs) {
                 try {

@@ -25,12 +25,12 @@ import org.xml.sax.SAXException;
 public class ClickCatalog implements CatalogReader, CatalogDescriptor, EntityResolver {
 
     // CLICK DTD
-    public static final String CLICK_2_1_DTD = "click.dtd";
-    public static final String CLICK_2_1_DTD_PUBLIC_ID = "-//Apache Software Foundation//DTD Click App Configuration 2.1//EN";
-    public static final String CLICK_2_1_DTD_LOCAL_URI = "nbres:/org/netbeans/modules/web/click/resources/click.dtd";
+    public static final String CLICK_2_1_DTD = "click_2_1.dtd";
+    public static final String CLICK_2_1_DTD_PUBLIC_ID = "-//Apache Software Foundation//DTD Click Configuration 2.1//EN";
+    public static final String CLICK_2_1_DTD_LOCAL_URI = "nbres:/org/netbeans/modules/web/click/resources/click_2_1.dtd";
     // CLICK MENU DTD
     public static final String MENU_2_1_DTD = "menu.dtd";
-    public static final String MENU_2_1_DTD_PUBLIC_ID = "-//Apache Software Foundation//DTD Click Menu Configuration 2.1//EN";
+    public static final String MENU_2_1_DTD_PUBLIC_ID = "-//Apache Software Foundation//DTD Click Menu Component 2.1//EN";
     public static final String MENU_2_1_DTD_LOCAL_URI = "nbres:/org/netbeans/modules/web/click/resources/menu.dtd";
 
     public Iterator getPublicIDs() {

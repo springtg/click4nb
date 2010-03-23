@@ -23,7 +23,7 @@ public final class ClickPageWizardIterator implements WizardDescriptor.Instantia
     private int index;
     private WizardDescriptor wizard;
     private WizardDescriptor.Panel[] panels;
-    private ClickPageWizardPanel1 clickPanel;
+    private ClickPageWizardPanel1 pagePanelData;
 
     /**
      * Initialize panels representing individual wizard's steps and sets
@@ -42,9 +42,9 @@ public final class ClickPageWizardIterator implements WizardDescriptor.Instantia
 //        }
 
         if (panels == null) {
-            clickPanel = new ClickPageWizardPanel1(project, groups);
+            pagePanelData = new ClickPageWizardPanel1(project, groups);
             panels = new WizardDescriptor.Panel[]{
-                        clickPanel
+                        pagePanelData
                     };
             String[] steps = createSteps();
             for (int i = 0; i < panels.length; i++) {
@@ -75,7 +75,7 @@ public final class ClickPageWizardIterator implements WizardDescriptor.Instantia
     }
 
     public Set instantiate() throws IOException {
-        return clickPanel.generateFiles();
+        return pagePanelData.generateFiles();
     }
 
     public void initialize(WizardDescriptor wizard) {

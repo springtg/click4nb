@@ -9,9 +9,5 @@ package org.netbeans.modules.web.click.api.model;
  *
  * @author hantsy
  */
-public interface  Format extends ClickComponent {
-    public static final String PROP_CLASSNAME="classname";
-
-    String getClassName();
-    void setClassName(String clsname);
+public interface  Format extends ClassNameComponent {
 }

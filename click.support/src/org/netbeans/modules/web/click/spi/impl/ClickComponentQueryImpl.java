@@ -14,11 +14,10 @@ import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
-import org.netbeans.modules.web.click.ClickResourceFinder;
+import org.netbeans.modules.web.click.ClickResourceTracker;
 import org.netbeans.modules.web.click.api.ClickFileType;
 import org.netbeans.modules.web.click.editor.ClickEditorUtilities;
 import org.netbeans.modules.web.click.spi.ClickComponentQueryImplementation;
-import org.netbeans.modules.web.common.util.WebModuleUtilities;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Parameters;
@@ -55,46 +54,46 @@ public class ClickComponentQueryImpl implements ClickComponentQueryImplementatio
     }
 
     @Override
-    public FileObject[] find(FileObject activeFileObject, ClickFileType clickFileType) {
-        Parameters.notNull("ClickComponentQueryImpl:activeFileObject can be null", activeFileObject);
-        Parameters.notNull("ClickComponentQueryImpl:clickFileType can be null", clickFileType);
+    public FileObject[] find(FileObject activatedFileObject, ClickFileType targetFileType) {
+        Parameters.notNull("ClickComponentQueryImpl:activeFileObject can be null", activatedFileObject);
+        Parameters.notNull("ClickComponentQueryImpl:clickFileType can be null", targetFileType);
 
-        Project project = FileOwnerQuery.getOwner(activeFileObject);
+        Project project = FileOwnerQuery.getOwner(activatedFileObject);
 
-        String fileNameExt = activeFileObject.getNameExt();
-        LOGGER.log(Level.FINEST, "activatedFile@" + fileNameExt + ",target clickFileType @" + clickFileType);
+        String fileNameExt = activatedFileObject.getNameExt();
+        LOGGER.log(Level.FINEST, "activatedFile@" + fileNameExt + ",target clickFileType @" + targetFileType);
 
-        switch (clickFileType) {
+        switch (targetFileType) {
             case CLASS:
                 if (fileNameExt.endsWith(".java")) {
-                    return new FileObject[]{activeFileObject};
+                    return new FileObject[]{activatedFileObject};
                 } else if (fileNameExt.endsWith(".htm") || fileNameExt.endsWith(".jsp")) {
-                    return new FileObject[]{findClassByPage(project, activeFileObject)};
+                    return new FileObject[]{findClassByPage(project, activatedFileObject)};
                 }
 //                else if (fileNameExt.endsWith(".properties")) {
-//                    return findClassByProperites(project, activeFileObject);
+//                    return findClassByProperites(project, activatedFileObject);
 //                }
                 break;
             case TEMPLATE:
                 if (fileNameExt.endsWith(".htm") || fileNameExt.endsWith(".jsp")) {
-                     return new FileObject[]{activeFileObject};
+                    return new FileObject[]{activatedFileObject};
                 } else if (fileNameExt.endsWith(".java")) {
-                     return findPageByClass(project, activeFileObject).toArray(new FileObject[0]);
+                    return findPageByClass(project, activatedFileObject);
                 }
 //                else if (fileNameExt.endsWith(".properties")) {
-//                    return findPageByProperites(project, activeFileObject);
+//                    return findPageByProperites(project, activatedFileObject);
 //                }
                 break;
-//            case PROPETIES:
-//
-//                if (fileNameExt.endsWith(".properties")) {
-//                    return activeFileObject;
-//                } else if (fileNameExt.endsWith(".java")) {
-//                    return findPropertiesByClass(project, activeFileObject);
-//                } else if (fileNameExt.endsWith(".htm") || fileNameExt.endsWith(".jsp")) {
-//                    return findPropertiesByPage(project, activeFileObject);
-//                }
-//                break;
+            case PROPETIES:
+
+                if (fileNameExt.endsWith(".properties")) {
+                    return new FileObject[]{activatedFileObject};
+                } else if (fileNameExt.endsWith(".java")) {
+                    return new FileObject[]{findPropertiesByClass(project, activatedFileObject)};
+                } else if (fileNameExt.endsWith(".htm") || fileNameExt.endsWith(".jsp")) {
+                    return new FileObject[]{findPropertiesByPage(project, activatedFileObject)};
+                }
+                break;
             default:
                 break;
         }
@@ -103,48 +102,37 @@ public class ClickComponentQueryImpl implements ClickComponentQueryImplementatio
 
     //private methods
     private FileObject findClassByPage(final Project project, FileObject pageFileObject) {
+        return ClickResourceTracker.findClassByPath(project, pageFileObject);
 
-        String pagePath = WebModuleUtilities.getPathByWebResourceFileObject(project, pageFileObject);
-        if (pagePath == null) {
-            return null;
-        }
-
-        String pageClazz = ClickResourceFinder.findClassByPath(project, pagePath);
-        if (pageClazz == null) {
-            return null;
-        }
-
-        return WebModuleUtilities.findJavaSourceByClassFQN(project, pageClazz);
     }
 
-    public List<FileObject> findPageByClass(Project project, FileObject classFileObject) {
-        String className = WebModuleUtilities.getClassFQNByJavaSourceFileObject(classFileObject);
-        if (className == null) {
-            return Collections.<FileObject>emptyList();
-        }
+    public FileObject[] findPageByClass(Project project, FileObject classFileObject) {
+        return ClickResourceTracker.findPathByClass(project, classFileObject);
 
-        String[] paths = ClickResourceFinder.findPathByClass(project, className);
-        List<FileObject> pathFOs = new ArrayList<FileObject>();
-        for (String p : paths) {
-            pathFOs.add(WebModuleUtilities.findWebResourceByPath(project, p));
-        }
-
-        return pathFOs;
     }
 
-    private FileObject findPageByPath(FileObject webRoot, String path) {
-        return ClickEditorUtilities.findPageByPath(webRoot, path);
-    }
 
     private FileObject findPropertiesByClass(Project project, FileObject classFileObject) {
 
-        String classFQN = WebModuleUtilities.getClassFQNByJavaSourceFileObject(classFileObject);
-        if (classFQN == null) {
+        Sources sources = ProjectUtils.getSources(project);
+        SourceGroup[] javaSourceGroups = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
+
+        String classRelativePath = null;
+        for (SourceGroup sg : javaSourceGroups) {
+            if (FileUtil.isParentOf(sg.getRootFolder(), classFileObject)) {
+                classRelativePath = FileUtil.getRelativePath(sg.getRootFolder(), classFileObject);
+                break;
+            }
+        }
+
+        if (classRelativePath == null) {
             return null;
         }
 
-        String proFilePath = classFQN.replaceAll(".", "/") + ".properties";
-        Sources sources = ProjectUtils.getSources(project);
+        String proFilePath = classRelativePath.substring(0, classRelativePath.lastIndexOf(".")) + ".properties";
+
+        LOGGER.finest("proFilePath @" + proFilePath);
+
         SourceGroup[] resourceGroups = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_RESOURCES);
         FileObject targetFO = null;
         for (SourceGroup sg : resourceGroups) {
@@ -155,7 +143,7 @@ public class ClickComponentQueryImpl implements ClickComponentQueryImplementatio
         }
 
         if (targetFO == null) {
-            resourceGroups = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
+            javaSourceGroups = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
             for (SourceGroup sg : resourceGroups) {
                 targetFO = sg.getRootFolder().getFileObject(proFilePath);
                 if (targetFO != null) {
@@ -186,8 +174,8 @@ public class ClickComponentQueryImpl implements ClickComponentQueryImplementatio
 //
 //    }
 //
-//    private FileObject findPageByProperites(Project project, FileObject activeFileObject) {
-//        FileObject classFO = findClassByProperites(project, activeFileObject);
+//    private FileObject findPageByProperites(Project project, FileObject activatedFileObject) {
+//        FileObject classFO = findClassByProperites(project, activatedFileObject);
 //
 //
 //        if (classFO != null) {
@@ -199,7 +187,6 @@ public class ClickComponentQueryImpl implements ClickComponentQueryImplementatio
 //
 //
 //    }
-
     private FileObject findPropertiesByPage(Project project, FileObject activeFileObject) {
         FileObject classFO = findClassByPage(project, activeFileObject);
         if (classFO != null) {

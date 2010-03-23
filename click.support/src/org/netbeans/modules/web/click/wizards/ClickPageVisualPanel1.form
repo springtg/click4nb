@@ -24,8 +24,8 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="clsPanel" alignment="0" max="32767" attributes="1"/>
-                  <Component id="htmlPanel" alignment="0" max="32767" attributes="1"/>
+                  <Component id="clsPanel" linkSize="1" alignment="0" max="32767" attributes="1"/>
+                  <Component id="htmlPanel" linkSize="1" alignment="0" max="32767" attributes="1"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -104,11 +104,11 @@
                           </Group>
                           <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtWebFolder" alignment="0" pref="240" max="32767" attributes="1"/>
-                              <Component id="textTemplateFileName" alignment="0" pref="240" max="32767" attributes="1"/>
+                              <Component id="textWebFolder" alignment="0" pref="241" max="32767" attributes="1"/>
+                              <Component id="textTemplateFileName" alignment="0" pref="241" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btBrowseWebFolder" max="32767" attributes="0"/>
+                          <Component id="btBrowseWebFolder" pref="90" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -127,7 +127,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lbWebFolder" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtWebFolder" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="textWebFolder" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btBrowseWebFolder" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -163,10 +163,10 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtWebFolder">
+        <Component class="javax.swing.JTextField" name="textWebFolder">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/netbeans/modules/web/click/wizards/Bundle.properties" key="ClickPageVisualPanel1.txtWebFolder.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/netbeans/modules/web/click/wizards/Bundle.properties" key="ClickPageVisualPanel1.textWebFolder.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
@@ -176,7 +176,7 @@
               <ResourceString bundle="org/netbeans/modules/web/click/wizards/Bundle.properties" key="ClickPageVisualPanel1.btBrowseWebFolder.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[88, 24]"/>
+              <Dimension value="[80, 21]"/>
             </Property>
           </Properties>
           <Events>
@@ -200,21 +200,25 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="textSuperClass" alignment="0" min="-2" pref="240" max="-2" attributes="1"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="textSuperClass" min="-2" pref="240" max="-2" attributes="1"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btBrowseSuperClass" pref="90" max="32767" attributes="0"/>
+                      </Group>
                       <Component id="cmbPackage" alignment="0" min="-2" pref="240" max="-2" attributes="1"/>
                       <Component id="textClassName" alignment="0" min="-2" pref="240" max="-2" attributes="1"/>
                       <Component id="cmbSourceFolder" alignment="0" min="-2" pref="150" max="-2" attributes="1"/>
                   </Group>
-                  <EmptySpace pref="108" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -239,6 +243,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="textSuperClass" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btBrowseSuperClass" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
@@ -300,6 +305,19 @@
               <Connection code="&quot;org.apache.click.Page&quot;" type="code"/>
             </Property>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btBrowseSuperClass">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/netbeans/modules/web/click/wizards/Bundle.properties" key="ClickPageVisualPanel1.btBrowseSuperClass.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[80, 21]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btBrowseSuperClassActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

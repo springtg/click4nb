@@ -5,7 +5,6 @@
 
 package org.netbeans.modules.web.click.api.model;
 
-import org.netbeans.modules.xml.xam.Reference;
 import org.netbeans.modules.xml.xam.Referenceable;
 
 /**

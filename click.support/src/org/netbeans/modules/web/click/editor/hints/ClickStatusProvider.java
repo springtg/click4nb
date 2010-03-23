@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.logging.Level;
 import javax.swing.text.Document;
 import org.netbeans.modules.web.click.api.model.ClickModel;
-import org.netbeans.modules.web.click.api.model.utils.ClickModelUtilities;
 import org.netbeans.modules.editor.NbEditorUtilities;
+import org.netbeans.modules.web.click.ClickConfigUtilities;
 import org.netbeans.modules.xml.xam.Model;
 import org.netbeans.spi.editor.errorstripe.UpToDateStatus;
 import org.netbeans.spi.editor.errorstripe.UpToDateStatusProvider;
@@ -130,7 +130,7 @@ public class ClickStatusProvider implements UpToDateStatusProviderFactory {
         private ClickModel getModel() {
             FileObject fo = NbEditorUtilities.getFileObject(document);
             if (fo != null) {
-                return ClickModelUtilities.getClickModel(fo, false);
+                return ClickConfigUtilities.getClickModel(fo, false);
             }
             return null;
         }

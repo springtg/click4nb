@@ -4,6 +4,7 @@
  */
 package org.netbeans.modules.web.click.api.model.impl;
 
+import org.netbeans.modules.web.click.api.model.ClassNameComponent;
 import org.netbeans.modules.web.click.api.model.ClickApp;
 import org.netbeans.modules.web.click.api.model.Excludes;
 import org.netbeans.modules.web.click.api.model.Header;
@@ -25,7 +26,7 @@ public enum ClickAttributes implements Attribute {
     PACKAGE(Pages.PROP_PACKAGE),
     AUTOBINDING(Pages.PROP_AUTOBINDING),
     AUTOMAPPING(Pages.PROP_AUTOMAPPING),
-    CLASSNAME(Page.PROP_CLASSNAME),
+    CLASSNAME(ClassNameComponent.PROP_CLASSNAME),
     PATH(Page.PROP_PATH),
     VALUE(Property.PROP_VALUE),
     TYPE(Header.PROP_TYPE),

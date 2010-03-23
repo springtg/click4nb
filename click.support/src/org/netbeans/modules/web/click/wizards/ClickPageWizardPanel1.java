@@ -27,11 +27,13 @@ import org.netbeans.modules.web.click.api.model.Pages;
 import org.netbeans.modules.web.api.webmodule.WebModule;
 import org.netbeans.modules.web.click.api.ClickProjectQuery;
 import org.netbeans.modules.web.click.api.model.ClickModelFactory;
-import org.netbeans.modules.web.common.util.WebModuleUtilities;
 import org.netbeans.modules.xml.retriever.catalog.Utilities;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
+import org.openide.loaders.DataFolder;
+import org.openide.loaders.DataObject;
+import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.util.ChangeSupport;
 import org.openide.util.Exceptions;
 import org.openide.util.HelpCtx;
@@ -114,9 +116,23 @@ public class ClickPageWizardPanel1 implements WizardDescriptor.Panel<WizardDescr
             templateProperties.put("template", "blank");
         }
         // if (component.requireCreatePageClass()) {
-        FileObject clazzFO = WebModuleUtilities.createFromTemplate(templateFolder, "Page.java", pkgFO, component.getPageClassName(), templateProperties);
-        files.add(clazzFO);
-        //}
+        FileObject templateFolderFO = FileUtil.getConfigFile(templateFolder);
+        DataObject classNameDO = null;
+        DataObject targetPageClassDO = null;
+
+        DataFolder targetFolderDF = DataFolder.findFolder(pkgFO);
+        try {
+            classNameDO = DataObject.find(templateFolderFO.getFileObject("Page.java"));
+
+        } catch (DataObjectNotFoundException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        try {
+            targetPageClassDO = classNameDO.createFromTemplate(targetFolderDF, component.getPageClassName(), templateProperties);
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        files.add(targetPageClassDO.getPrimaryFile());
 
         if (component.requireCreateTemplateFile()) {
 
@@ -131,8 +147,19 @@ public class ClickPageWizardPanel1 implements WizardDescriptor.Panel<WizardDescr
                 filePath = filePath.substring(0, filePath.lastIndexOf("."));
             }
 
-            FileObject pageFO = WebModuleUtilities.createFromTemplate(templateFolder, templateName, webRoot, filePath, templateProperties);
-            files.add(pageFO);
+            DataObject pageTempalteDO = null;
+            try {
+                pageTempalteDO = DataObject.find(templateFolderFO.getFileObject(templateName));
+            } catch (DataObjectNotFoundException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            DataObject targetPageDO = null;
+            try {
+                targetPageDO = pageTempalteDO.createFromTemplate(DataFolder.findFolder(webRoot), filePath, templateProperties);
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            files.add(targetPageDO.getPrimaryFile());
         }
 
         if (component.requireCreateTemplateFile() && component.requireAddMappingToClickXML()) {
@@ -273,8 +300,8 @@ public class ClickPageWizardPanel1 implements WizardDescriptor.Panel<WizardDescr
 
     public void storeSettings(WizardDescriptor settings) {
         Object value = wizard.getValue();
-        if (WizardDescriptor.PREVIOUS_OPTION.equals(value) || WizardDescriptor.CANCEL_OPTION.equals(value) ||
-                WizardDescriptor.CLOSED_OPTION.equals(value)) {
+        if (WizardDescriptor.PREVIOUS_OPTION.equals(value) || WizardDescriptor.CANCEL_OPTION.equals(value)
+                || WizardDescriptor.CLOSED_OPTION.equals(value)) {
             return;
         }
 

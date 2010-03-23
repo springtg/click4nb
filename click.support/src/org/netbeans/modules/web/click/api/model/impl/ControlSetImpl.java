@@ -4,12 +4,12 @@
  */
 package org.netbeans.modules.web.click.api.model.impl;
 
+import org.netbeans.modules.web.click.ClickConfigUtilities;
 import org.netbeans.modules.web.click.api.model.ClickApp;
 import org.netbeans.modules.web.click.api.model.ClickComponent;
 import org.netbeans.modules.web.click.api.model.ClickModel;
 import org.netbeans.modules.web.click.api.model.ClickVisitor;
 import org.netbeans.modules.web.click.api.model.ControlSet;
-import org.netbeans.modules.web.click.api.model.utils.ClickModelUtilities;
 import org.netbeans.modules.xml.xam.AbstractReference;
 import org.netbeans.modules.xml.xam.Reference;
 import org.openide.filesystems.FileObject;
@@ -47,7 +47,7 @@ public class ControlSetImpl extends ClickComponentImpl.Named implements ControlS
             if (getReferenced() == null) {
                 FileObject targetFO = getAbsoluteLocation(refString);
                 if(targetFO != null) {
-                    ClickModel model = ClickModelUtilities.getClickModel(targetFO, false);
+                    ClickModel model = ClickConfigUtilities.getClickModel(targetFO, false);
                     if(model != null) {
                         ClickApp root = model.getRootComponent();
                         setReferenced(root);

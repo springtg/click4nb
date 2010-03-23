@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?> 
-<click-app> 
-<#if package?exists>
-    <pages package="${package}"/>
-</#if>
-<#if mode?exists>
-    <mode value="${mode}"/>
-</#if>
-</click-app> 

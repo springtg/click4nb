@@ -212,14 +212,7 @@
     </folder>
     <folder name="ClickFramework">
         <folder name="Templates">
-            <file name="click.dtd" url="resources/click.dtd">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-            <file name="menu.dtd" url="resources/menu.dtd">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
+
             <!--PageClass template-->
             <file name="Page.java" url="templates/Page.java.template">
                 <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
@@ -229,162 +222,37 @@
             <file name="Page.htm" url="templates/Page.htm.template">
                 <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
                 <attr name="template" boolvalue="true"/>
-                <attr name="position" intvalue="0"/>
             </file>
             <file name="Page.jsp" url="templates/Page.htm.template">
                 <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
                 <attr name="template" boolvalue="true"/>
-                <attr name="position" intvalue="0"/>
             </file>
-            <!--example template files-->
-            <file name="LoginPage.java" url="templates/example/LoginPage.java.template">
+            <file name="style.css" url="templates/style.css.template">
+                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
+                <attr name="template" boolvalue="true"/>
+            </file>
+             <file name="Home.java" url="templates/Home.java.template">
                 <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
                 <attr name="template" boolvalue="true"/>
             </file>
 
-            <file name="LogoutPage.java" url="templates/example/LogoutPage.java.template">
+            <file name="home.htm" url="templates/home.htm.template">
                 <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
                 <attr name="template" boolvalue="true"/>
             </file>
-
-            <file name="admin-Admin1Page.java" url="templates/example/admin-Admin1Page.java.template">
+            <file name="click.xml" url="templates/click.xml">
                 <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
                 <attr name="template" boolvalue="true"/>
             </file>
-
-            <file name="admin-Admin2Page.java" url="templates/example/admin-Admin2Page.java.template">
+            <file name="applicationContext.xml" url="templates/applicationContext.xml">
                 <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
                 <attr name="template" boolvalue="true"/>
             </file>
-
-            <file name="BasePage.java" url="templates/example/BasePage.java.template">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-
-            <file name="BorderPage.java" url="templates/example/BorderPage.java.template">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-
-            <file name="NotAuthorizedPage.java" url="templates/example/NotAuthorizedPage.java.template">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-
-            <file name="user-HomePage.java" url="templates/example/user-HomePage.java.template">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-
-            <file name="user-User1Page.java" url="templates/example/user-User1Page.java.template">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-
-            <file name="click-ErrorPage.java" url="templates/example/click-ErrorPage.java.template">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-
-            <file name="user-User2Page.java" url="templates/example/user-User2Page.java.template">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-
-            <file name="click.xml" url="templates/example/click.template">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-
-            <!-- None tempalte files-->
-            <file name="login.htm" url="templates/example/login.htm">
+            <file name="redirect.html" url="templates/redirect.html">
                 <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
                 <attr name="template" boolvalue="false"/>
             </file>
-
-            <file name="logout.htm" url="templates/example/logout.htm">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="user-home.htm" url="templates/example/user-home.htm">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="user-user-1.htm" url="templates/example/user-user-1.htm">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="user-user-2.htm" url="templates/example/user-user-2.htm">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="border-template.htm" url="templates/example/border-template.htm">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="click-error.htm" url="templates/example/click-error.htm">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="not-authorized.htm" url="templates/example/not-authorized.htm">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="admin-admin-1.htm" url="templates/example/admin-admin-1.htm">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="admin-admin-2.htm" url="templates/example/admin-admin-2.htm">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="redirect.html" url="templates/example/redirect.html">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-           <!-- <file name="metainf-context.xml" url="templates/example/metainf-context.xml">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="true"/>
-            </file>-->
-
-            <file name="menu.xml" url="templates/example/menu.xml">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="macro.vm" url="templates/example/macro.vm">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-
-            <file name="assets-bannar.png" url="templates/example/assets-bannar.png">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="assets-home.png" url="templates/example/assets-home.png">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="assets-login.png" url="templates/example/assets-login.png">
-                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
-                <attr name="template" boolvalue="false"/>
-            </file>
-
-            <file name="assets-style.css" url="templates/example/assets-style.css">
+            <file name="menu.xml" url="templates/menu.xml">
                 <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
                 <attr name="template" boolvalue="false"/>
             </file>
@@ -395,7 +263,7 @@
         <folder name="text">
             <!--<folder name="text">
                 <folder name="x-clickapp+xml">
-                    
+
                 </folder>
             </folder>-->
             <folder name="html">
@@ -436,7 +304,7 @@
                     </folder>
                 </folder>
             </folder>
-            <folder name="x-properties">
+           <!-- <folder name="x-properties">
                 <folder name="Popup">
                     <folder name="goto">
                         <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.modules.web.click.Bundle"/>
@@ -454,7 +322,7 @@
                         </file>
                     </folder>
                 </folder>
-            </folder>
+            </folder>-->
             <folder name="x-clickapp+xml">
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.modules.web.click.Bundle"/>
                 <folder name="HyperlinkProviders">

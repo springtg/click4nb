@@ -7,15 +7,14 @@ package org.netbeans.modules.web.click.actions;
 import java.util.logging.Logger;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
-import org.netbeans.modules.web.click.ClickResourceFinder;
 import org.netbeans.modules.web.click.api.ClickComponentQuery;
 import org.netbeans.modules.web.click.api.ClickFileType;
 import org.netbeans.modules.web.click.editor.ClickEditorUtilities;
-import org.netbeans.modules.web.common.util.WebModuleUtilities;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
 import org.openide.util.NbBundle;
 import org.openide.util.RequestProcessor;
 
@@ -50,18 +49,20 @@ public class OpenComponentThread implements Runnable {
             log.finest("find more than one file... and popup a window to select.");
             log.finest("target file size@" + targetFO.length);
 
-            String classFQN = WebModuleUtilities.getClassFQNByJavaSourceFileObject(activeFileObject);
             Project project = FileOwnerQuery.getOwner(activeFileObject);
-            String[] files = ClickResourceFinder.findPathByClass(project, classFQN);
-            TemplateSelectionPanel panel = new TemplateSelectionPanel(files);
+            String[] filePaths = new String[targetFO.length];
+            for (int i = 0; i < targetFO.length; i++) {
+                filePaths[i]=FileUtil.getRelativePath(project.getProjectDirectory(),targetFO[i] );
+            }
+
+            TemplateSelectionPanel panel = new TemplateSelectionPanel(filePaths);
             DialogDescriptor d = new DialogDescriptor(panel, "Select a tempalte file", true, null);
-            FileObject fileToOpen = null;
-            String selectedResource = null;
+
+            FileObject selectedResource = null;
             if (DialogDescriptor.OK_OPTION == DialogDisplayer.getDefault().notify(d)) {
-                selectedResource = files[panel.getSelectionIndex()];
-                fileToOpen = WebModuleUtilities.findWebResourceByPath(project, selectedResource);
-                if (fileToOpen != null) {
-                    openFile(fileToOpen);
+                selectedResource = targetFO[panel.getSelectionIndex()];
+                if (selectedResource != null) {
+                    openFile(selectedResource);
                 }
             }
         }
