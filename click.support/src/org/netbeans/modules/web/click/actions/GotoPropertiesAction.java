@@ -26,6 +26,12 @@ public final class GotoPropertiesAction extends CookieAction {
                 return false;
             }
             FileObject file = dataDO.getPrimaryFile();
+
+            String ext = file.getExt().toLowerCase();
+            if (!ext.equals("jsp") && !ext.equals("htm") && !ext.equals("java")) {
+                return false;
+            }
+
             Project project = FileOwnerQuery.getOwner(file);
 
             if (project != null) {

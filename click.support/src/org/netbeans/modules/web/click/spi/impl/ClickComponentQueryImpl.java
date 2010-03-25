@@ -4,9 +4,6 @@
  */
 package org.netbeans.modules.web.click.spi.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.logging.Level;
 import org.netbeans.api.java.project.JavaProjectConstants;
 import org.netbeans.api.project.FileOwnerQuery;
@@ -16,7 +13,6 @@ import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
 import org.netbeans.modules.web.click.ClickResourceTracker;
 import org.netbeans.modules.web.click.api.ClickFileType;
-import org.netbeans.modules.web.click.editor.ClickEditorUtilities;
 import org.netbeans.modules.web.click.spi.ClickComponentQueryImplementation;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -65,33 +61,46 @@ public class ClickComponentQueryImpl implements ClickComponentQueryImplementatio
 
         switch (targetFileType) {
             case CLASS:
-                if (fileNameExt.endsWith(".java")) {
-                    return new FileObject[]{activatedFileObject};
-                } else if (fileNameExt.endsWith(".htm") || fileNameExt.endsWith(".jsp")) {
-                    return new FileObject[]{findClassByPage(project, activatedFileObject)};
+                if (fileNameExt.endsWith(".htm") || fileNameExt.endsWith(".jsp")) {
+                    LOGGER.finest("htm->class @");
+                    FileObject targetFO = findClassByPage(project, activatedFileObject);
+                    if (targetFO == null) {
+                        return new FileObject[]{};
+                    } else {
+                        return new FileObject[]{targetFO};
+                    }
                 }
 //                else if (fileNameExt.endsWith(".properties")) {
 //                    return findClassByProperites(project, activatedFileObject);
 //                }
                 break;
             case TEMPLATE:
-                if (fileNameExt.endsWith(".htm") || fileNameExt.endsWith(".jsp")) {
-                    return new FileObject[]{activatedFileObject};
-                } else if (fileNameExt.endsWith(".java")) {
-                    return findPageByClass(project, activatedFileObject);
+                if (fileNameExt.endsWith(".java")) {
+                    LOGGER.finest("class->htm @");
+                    FileObject[] targetFO = findPageByClass(project, activatedFileObject);
+                    return targetFO;
                 }
 //                else if (fileNameExt.endsWith(".properties")) {
 //                    return findPageByProperites(project, activatedFileObject);
 //                }
                 break;
             case PROPETIES:
-
-                if (fileNameExt.endsWith(".properties")) {
-                    return new FileObject[]{activatedFileObject};
-                } else if (fileNameExt.endsWith(".java")) {
-                    return new FileObject[]{findPropertiesByClass(project, activatedFileObject)};
+                if (fileNameExt.endsWith(".java")) {
+                    LOGGER.finest("class->property @");
+                    FileObject targetFO = findPropertiesByClass(project, activatedFileObject);
+                    if (targetFO == null) {
+                        return new FileObject[]{};
+                    } else {
+                        return new FileObject[]{targetFO};
+                    }
                 } else if (fileNameExt.endsWith(".htm") || fileNameExt.endsWith(".jsp")) {
-                    return new FileObject[]{findPropertiesByPage(project, activatedFileObject)};
+                    LOGGER.finest("htm->property @");
+                    FileObject targetFO = findPropertiesByPage(project, activatedFileObject);
+                    if (targetFO == null) {
+                        return new FileObject[]{};
+                    } else {
+                        return new FileObject[]{targetFO};
+                    }
                 }
                 break;
             default:
@@ -110,7 +119,6 @@ public class ClickComponentQueryImpl implements ClickComponentQueryImplementatio
         return ClickResourceTracker.findPathByClass(project, classFileObject);
 
     }
-
 
     private FileObject findPropertiesByClass(Project project, FileObject classFileObject) {
 

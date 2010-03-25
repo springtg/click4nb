@@ -26,6 +26,12 @@ public final class GotoClassAction extends CookieAction {
                 return false;
             }
             FileObject file = dataDO.getPrimaryFile();
+
+            String ext = file.getExt().toLowerCase();
+            if (!ext.equals("jsp") && !ext.equals("htm") && !ext.equals("properties")) {
+                return false;
+            }
+
             Project project = FileOwnerQuery.getOwner(file);
 
             if (project != null) {
@@ -43,9 +49,9 @@ public final class GotoClassAction extends CookieAction {
                 return;
             }
             FileObject file = dataDO.getPrimaryFile();
-           if(file!=null){
-            new OpenComponentThread().findAndOpenFile(file, ClickFileType.CLASS);
-           }
+            if (file != null) {
+                new OpenComponentThread().findAndOpenFile(file, ClickFileType.CLASS);
+            }
         }
     }
 

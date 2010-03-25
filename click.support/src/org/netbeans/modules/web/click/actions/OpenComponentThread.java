@@ -55,6 +55,7 @@ public class OpenComponentThread implements Runnable {
                 filePaths[i]=FileUtil.getRelativePath(project.getProjectDirectory(),targetFO[i] );
             }
 
+            log.finest("files path @@"+filePaths);
             TemplateSelectionPanel panel = new TemplateSelectionPanel(filePaths);
             DialogDescriptor d = new DialogDescriptor(panel, "Select a tempalte file", true, null);
 

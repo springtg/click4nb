@@ -21,9 +21,9 @@ public class TemplateSelectionPanel extends javax.swing.JPanel {
     /** Creates new form TemplateFilesPanel */
     private String[] templatePaths = null;
 
-    public TemplateSelectionPanel(String[] templatePahts) {
-        initComponents();
+    public TemplateSelectionPanel(String[] templatePahts) {     
         this.templatePaths = templatePahts;
+        initComponents();
         jList1.setSelectedIndex(0);
         jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
@@ -55,8 +55,8 @@ public class TemplateSelectionPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

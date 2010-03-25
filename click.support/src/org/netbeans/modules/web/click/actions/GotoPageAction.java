@@ -49,6 +49,12 @@ public final class GotoPageAction extends CookieAction {
                 return false;
             }
             FileObject file = dataDO.getPrimaryFile();
+
+            String ext = file.getExt().toLowerCase();
+            if (!ext.equals("java") && !ext.equals("properties")) {
+                return false;
+            }
+
             Project project = FileOwnerQuery.getOwner(file);
 
             if (project != null) {

@@ -43,8 +43,26 @@ import org.openide.util.WeakSet;
 public class ClickResourceTracker {
 
     //initialize the logger.
-    private static final java.util.logging.Logger log = Logger.getLogger(ClickResourceTracker.class.getName());
-    //------------------variables-----------------------
+    private static final java.util.logging.Logger log;
+
+    static {
+        log = java.util.logging.Logger.getLogger("org.netbeans.modules.web.click.ClickResourceTracker");
+        org.netbeans.modules.web.click.ClickResourceTracker.initLoggerHandlers();
+    }
+
+    private static final void initLoggerHandlers() {
+        java.util.logging.Handler[] handlers = log.getHandlers();
+        boolean hasConsoleHandler = false;
+        for (java.util.logging.Handler handler : handlers) {
+            if (handler instanceof java.util.logging.ConsoleHandler) {
+                hasConsoleHandler = true;
+            }
+        }
+        if (!hasConsoleHandler) {
+            log.addHandler(new java.util.logging.ConsoleHandler());
+        }
+        log.setLevel(java.util.logging.Level.FINEST);
+    } //------------------variables-----------------------
     private static Map<FileObject, PageElement> pageByPathMap = null;//Collections.<String, String>emptyMap();
     private static Map<FileObject, Set<PageElement>> pageByClassMap = null;
     private static Set<FileObject> orphanPageClazzCache = null;
@@ -71,8 +89,6 @@ public class ClickResourceTracker {
         } else {
             orphanPageClazzCache.clear();
         }
-
-
 
         WebModule wm = WebModule.getWebModule(project.getProjectDirectory());
         if (wm == null) {
@@ -134,26 +150,7 @@ public class ClickResourceTracker {
         WebModule wm = WebModule.getWebModule(project.getProjectDirectory());
         FileObject webRoot = wm.getDocumentBase();
 
-        if (pagesInCache != null && !pagesInCache.isEmpty()) {
-            String pagePath = null;
-            FileObject pathFO = null;
-            Iterator<PageElement> pagesIterator = pagesInCache.iterator();
-            PageElement page = null;
-            while (pagesIterator.hasNext()) {
-                page = pagesIterator.next();
-                pagePath = page.getPath();
-                pathFO = findWebPageFileObjectByPath(webRoot, pagePath);
-
-                if (pathFO == null) {
-                    pageByPathMap.remove(pathFO);
-                    pagesInCache.remove(page);
-                }
-            }
-        } else {
-            //TODO add page class to cache...
-
-
-
+        if (pagesInCache == null || pagesInCache.isEmpty()) {
 
             FileObject clickFO = ClickConfigUtilities.getClickConfigFile(project, ClickConstants.DEFAULT_CLICK_APP_CONFIG_FILE);
             ClickModel clickModel = ClickConfigUtilities.getClickModel(clickFO, false);
@@ -333,19 +330,22 @@ public class ClickResourceTracker {
     private static FileObject pageClassFileObjectForFQN(final Project project, String className) {
         Sources sources = ProjectUtils.getSources(project);
         SourceGroup[] sg = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
-        String classRelativePath = className.replaceAll(".", "/") + ".java";
+        String classRelativePath = className.replaceAll("\\.", "/") + ".java";
+
+        log.finest(">classRelativePath @" + classRelativePath);
 
         FileObject result = null;
         for (SourceGroup g : sg) {
             result = g.getRootFolder().getFileObject(classRelativePath);
             if (result != null) {
-                return result;
+                break;
             }
         }
-        return null;
+        return result;
     }
 
     public static FileObject findClassByPath(final Project project, final FileObject pathFO) {
+        log.finest("Calll findClassByPath @@");
         initializeIfNeeded(project);
 
         //update cache firstly...if needed.
@@ -353,17 +353,12 @@ public class ClickResourceTracker {
         FileObject webRoot = wm.getDocumentBase();
 
         String templatePath = FileUtil.getRelativePath(webRoot, pathFO);
+        log.finest("@template path @" + templatePath);
 
         PageElement page = pageByPathMap.get(pathFO);
-
-        if (page != null) {
-            String pageClazz = page.getClazz();
-            FileObject pageClassFO = pageClassFileObjectForFQN(project, pageClazz);
-            if (pageClassFO == null) {
-                pageByClassMap.remove(pageClassFO);
-                pageByPathMap.remove(pathFO);
-            }
-        } else {
+        
+        if (page == null) {
+            log.finest("can not find page value in cache...");
             FileObject clickFO = ClickConfigUtilities.getClickConfigFile(project, ClickConstants.DEFAULT_CLICK_APP_CONFIG_FILE);
             ClickModel clickModel = ClickConfigUtilities.getClickModel(clickFO, false);
             ClickApp clickModelRoot = clickModel.getRootComponent();
@@ -389,6 +384,7 @@ public class ClickResourceTracker {
                             FileObject pageClassFO = pageClassFileObjectForFQN(project, pageClazz);
                             if (pageClassFO != null) {
                                 PageElement pathClazzPair = new PageElement(templatePath, pageClazz);
+                                log.finest("add page elements @"+pathClazzPair);
                                 pageByPathMap.put(pathFO, pathClazzPair);
                                 addToClassMap(project, pathClazzPair);
                             } else {
@@ -399,8 +395,13 @@ public class ClickResourceTracker {
 
                     //search automaping
                     if (automap) {
+                        log.finest("process automaping...!");
                         String targetDirName = "";
                         String targetClazzName = "";
+
+                        if(templatePath.startsWith("/")){
+                            templatePath=templatePath.substring(1);
+                        }
 
                         if (templatePath.contains("/")) {
                             targetDirName = templatePath.substring(0, templatePath.lastIndexOf("/"));
@@ -409,16 +410,28 @@ public class ClickResourceTracker {
                             targetClazzName = templatePath;
                         }
 
+                        //chop file extension...
+                        targetClazzName=targetClazzName.substring(0, targetClazzName.lastIndexOf("."));
+                        log.finest("target dir name @"+targetDirName +", target class name @"+targetClazzName);
+
                         String guessClazzName = computeClassNameByTemplateName(targetClazzName);
                         String guessPackageDir = "";
-                        if (pagesPackage != null && !"".equals(pagesPackage)) {
-                            guessPackageDir = (pagesPackage + ".").replaceAll(".", "/");
+                        if (pagesPackage != null && !"".equals(pagesPackage.trim())) {
+                            guessPackageDir =pagesPackage.replaceAll("\\.", "/");
                         }
-                        if (targetDirName != null && !"".equals(targetDirName)) {
+                        if (targetDirName != null && !"".equals(targetDirName.trim())) {
+                            if(guessPackageDir.length()>0){
+                                guessPackageDir+="/";
+                            }
+
                             guessPackageDir = guessPackageDir + targetDirName;
                         }
 
-                        String guessClazzFilePath = guessPackageDir + "/" + guessClazzName + ".java";
+                        log.finest("guess dir name @"+guessPackageDir +", guess class name @"+guessClazzName);
+
+                        String guessClazzFilePath = guessPackageDir + "/"+ guessClazzName + ".java";
+
+                        log.finest("guess class file path @"+guessClazzFilePath);
 
                         Sources sources = ProjectUtils.getSources(project);
                         SourceGroup[] sourceGroups = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
@@ -432,19 +445,21 @@ public class ClickResourceTracker {
                                 pageClazz = pageClazz.replaceAll("/", ".");
 
                                 pathClazzPair = new PageElement(templatePath, pageClazz);
+                                log.finest("add page elements @"+pathClazzPair);
                                 pageByPathMap.put(pathFO, pathClazzPair);
                                 addToClassMap(project, pathClazzPair);
                                 pathClazzPairFound = true;
                             }
 
                             if (!pathClazzPairFound && !guessClazzName.endsWith("Page")) {
-                                guessClazzFilePath = guessPackageDir + "/" + guessClazzName + "Page.java";
+                                guessClazzFilePath = guessPackageDir  + "/" + guessClazzName + "Page.java";
 
                                 if (sg.getRootFolder().getFileObject(guessClazzFilePath) != null) {
                                     pageClazz = guessPackageDir + "/" + guessClazzName + "Page";
                                     pageClazz = pageClazz.replaceAll("/", ".");
 
                                     pathClazzPair = new PageElement(templatePath, pageClazz);
+                                    log.finest("add page elements @"+pathClazzPair);
                                     pageByPathMap.put(pathFO, pathClazzPair);
                                     addToClassMap(project, pathClazzPair);
                                     pathClazzPairFound = true;
@@ -496,10 +511,11 @@ public class ClickResourceTracker {
         for (int i = 0; i
                 < templates.size(); i++) {
             String pagePath = templates.get(i);
-            if (!pageByPathMap.containsKey(pagePath)) {
+            FileObject pageFO=findWebPageFileObjectByPath(webRoot, pagePath);
+            if (!pageByPathMap.containsKey(pageFO)) {
                 String pageClazz = getPageClass(project, pagePath, pagesPackage);
                 if (pageClazz != null) {
-                    pageByPathMap.put(findWebPageFileObjectByPath(webRoot, pagePath), new PageElement(pagePath, pageClazz));
+                    pageByPathMap.put(pageFO, new PageElement(pagePath, pageClazz));
                     log.finest("Add '" + pagePath + "' -> '" + pageClazz + "' to pageByPathMap");
                 }
             }
@@ -527,10 +543,12 @@ public class ClickResourceTracker {
             className = path;
         }
         className = computeClassNameByTemplateName(className);
+        log.finest("class name @"+className);
 
         // className = 'org.apache.click.pages.EditCustomer'
         className = packageName + className;
-        String clazzRelativePath = className.replaceAll(".", "/") + ".java";
+        String clazzRelativePath = className.replaceAll("\\.", "/") + ".java";
+        log.finest("class relative path @"+clazzRelativePath);
 
         SourceGroup[] sourceGroups = ProjectUtils.getSources(project).getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
         FileObject rootFolder = null;
@@ -546,7 +564,7 @@ public class ClickResourceTracker {
 
         if (!className.endsWith("Page")) {
             className = className + "Page";
-            clazzRelativePath = className.replaceAll(".", "/") + ".java";
+            clazzRelativePath = className.replaceAll("\\.", "/") + ".java";
             for (SourceGroup group : sourceGroups) {
                 rootFolder = group.getRootFolder();
                 targetFileObject = rootFolder.getFileObject(clazzRelativePath);
@@ -580,12 +598,13 @@ public class ClickResourceTracker {
 
     private static void addToClassMap(Project project, PageElement page) {
         log.finest("starting addToClassMap...");
-        Set<PageElement> value = pageByClassMap.get(page.getClazz());
+        FileObject pageClassFO=pageClassFileObjectForFQN(project, page.getClazz());
+        Set<PageElement> value = pageByClassMap.get(pageClassFO);
 
         if (value == null) {
             value = new HashSet<PageElement>();
             value.add(page);
-            pageByClassMap.put(pageClassFileObjectForFQN(project, page.getClazz()), value);
+            pageByClassMap.put(pageClassFO, value);
             log.finest("Add '" + page.getClazz() + "' ->'" + page.getPath() + "@" + page.getClazz() + "'");
         } else {
             log.finest("Add '" + page.getClazz() + "' ->'" + page.getPath() + "@" + page.getClazz() + "'");
@@ -640,5 +659,18 @@ public class ClickResourceTracker {
             hash = 89 * hash + (this.clazz != null ? this.clazz.hashCode() : 0);
             return hash;
         }
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("PageElement [");
+            builder.append("clazz=");
+            builder.append(clazz);
+            builder.append(", path=");
+            builder.append(path);
+            builder.append("]");
+            return builder.toString();
+        }
+
     }
 }
