@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
-import org.openide.util.RequestProcessor;
 
 public final class OpenWithCayenneModelerAction implements ActionListener {
 
@@ -21,7 +20,8 @@ public final class OpenWithCayenneModelerAction implements ActionListener {
     public void actionPerformed(ActionEvent ev) {
         if(context !=null){
             final FileObject fo=context.getPrimaryFile();
-            new CayenneModelerLauncher().launch(fo);
+            new Thread(new CayenneModelerLauncher(fo)).run();
+           // new CayenneModelerLauncher().launch(fo);
         }
     }
 }

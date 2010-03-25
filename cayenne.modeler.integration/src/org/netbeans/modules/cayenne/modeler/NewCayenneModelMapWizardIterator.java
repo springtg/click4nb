@@ -114,12 +114,12 @@ public final class NewCayenneModelMapWizardIterator implements WizardDescriptor.
 
             public void run() {
                 CayenneConfigUtilities.copyLibraries(Templates.getProject(wizard));
-                new CayenneModelerLauncher().launch(dObj.getPrimaryFile());
+                new Thread(new CayenneModelerLauncher(dObj.getPrimaryFile())).run();
             }
         });
         if (RequestProcessor.getDefault().isRequestProcessorThread()) {
             task.waitFinished();
-        }else{
+        } else {
             task.run();
         }
 

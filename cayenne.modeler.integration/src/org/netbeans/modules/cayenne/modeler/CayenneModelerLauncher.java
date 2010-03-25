@@ -16,19 +16,20 @@ import org.openide.util.RequestProcessor;
 public class CayenneModelerLauncher extends Main implements Runnable {
 
     private FileObject domainFile;
-    public void launch(FileObject fo) {
-        this.domainFile=fo;
-        RequestProcessor.getDefault().post(this);
+
+    CayenneModelerLauncher(FileObject fo) {
+        this.domainFile = fo;
     }
+//    public void launch(FileObject fo) {
+//        this.domainFile=fo;
+//        RequestProcessor.getDefault().post(this);
+//    }
 
     @Override
     protected void configureLookAndFeel() {
-        
     }
 
     public void run() {
         runModeler(FileUtil.toFile(domainFile));
     }
-
-
 }
