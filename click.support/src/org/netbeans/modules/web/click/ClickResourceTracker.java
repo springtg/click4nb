@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.WeakHashMap;
-import java.util.logging.Logger;
 import javax.lang.model.element.TypeElement;
 import org.netbeans.api.java.project.JavaProjectConstants;
 import org.netbeans.api.java.source.CompilationController;

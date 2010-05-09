@@ -336,7 +336,7 @@ public final class ClickPageVisualPanel1 extends JPanel implements ActionListene
 
     private void btBrowseSuperClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBrowseSuperClassActionPerformed
 
-        ElementHandle<TypeElement> type = TypeElementFinder.find(ClasspathInfo.create(this.project.getProjectDirectory()), null);
+        ElementHandle<TypeElement> type = TypeElementFinder.find(ClasspathInfo.create(this.getRootFolder()), null);
 
         if (type != null) {
             textSuperClass.setText(type.getQualifiedName());

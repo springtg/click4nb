@@ -25,7 +25,6 @@ import org.netbeans.modules.web.click.api.model.ClickModel;
 import org.netbeans.modules.web.click.api.model.ClickModelFactory;
 import org.netbeans.modules.web.click.api.model.MenuModel;
 import org.netbeans.modules.web.click.api.model.MenuModelFactory;
-import org.netbeans.modules.web.spi.webmodule.WebModuleProvider;
 import org.netbeans.modules.xml.retriever.catalog.Utilities;
 import org.netbeans.modules.xml.xam.ModelSource;
 import org.openide.filesystems.FileObject;

@@ -10,6 +10,8 @@
  */
 package org.netbeans.modules.web.click.actions;
 
+import java.awt.Dimension;
+import javax.swing.Box;
 import javax.swing.ListSelectionModel;
 
 /**
@@ -37,29 +39,27 @@ public class TemplateSelectionPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList(templatePaths);
 
+        setMinimumSize(new java.awt.Dimension(250, 165));
+        setPreferredSize(new java.awt.Dimension(250, 165));
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
+
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(TemplateSelectionPanel.class, "TemplateSelectionPanel.jLabel1.text")); // NOI18N
+        jLabel1.setAlignmentX(0.5f);
+        jLabel1.setFocusable(false);
+        add(jLabel1);
+
         jScrollPane1.setViewportView(jList1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        add(Box.createRigidArea(new Dimension(0,15)));
+
+        add(jScrollPane1);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

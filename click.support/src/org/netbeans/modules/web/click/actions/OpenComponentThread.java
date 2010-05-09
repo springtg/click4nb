@@ -12,7 +12,7 @@ import org.netbeans.modules.web.click.api.ClickFileType;
 import org.netbeans.modules.web.click.editor.ClickEditorUtilities;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
+import org.openide.awt.StatusDisplayer;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.NbBundle;
@@ -39,10 +39,7 @@ public class OpenComponentThread implements Runnable {
         FileObject[] targetFO = ClickComponentQuery.findComponent(activeFileObject, typeToFind);
 
         if (targetFO == null || targetFO.length == 0) {
-            String key = NbBundle.getMessage(OpenComponentThread.class, "MSG_FileNotFound");
-            NotifyDescriptor.Message d =
-                    new NotifyDescriptor.Message(key, NotifyDescriptor.WARNING_MESSAGE);
-            DialogDisplayer.getDefault().notify(d);
+            StatusDisplayer.getDefault().setStatusText(NbBundle.getMessage(OpenComponentThread.class, "MSG_FileNotFound"));
         } else if (targetFO.length == 1) {
             openFile(targetFO[0]);
         } else {
@@ -52,12 +49,12 @@ public class OpenComponentThread implements Runnable {
             Project project = FileOwnerQuery.getOwner(activeFileObject);
             String[] filePaths = new String[targetFO.length];
             for (int i = 0; i < targetFO.length; i++) {
-                filePaths[i]=FileUtil.getRelativePath(project.getProjectDirectory(),targetFO[i] );
+                filePaths[i] = FileUtil.getRelativePath(project.getProjectDirectory(), targetFO[i]);
             }
 
-            log.finest("files path @@"+filePaths);
+            log.finest("files path @@" + filePaths);
             TemplateSelectionPanel panel = new TemplateSelectionPanel(filePaths);
-            DialogDescriptor d = new DialogDescriptor(panel, "Select a tempalte file", true, null);
+            DialogDescriptor d = new DialogDescriptor(panel, "Select a file to open", true, null);
 
             FileObject selectedResource = null;
             if (DialogDescriptor.OK_OPTION == DialogDisplayer.getDefault().notify(d)) {
