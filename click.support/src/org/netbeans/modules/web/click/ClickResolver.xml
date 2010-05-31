@@ -7,7 +7,15 @@ and open the template in the editor.
 <MIME-resolver>
     <file>
         <ext name="xml"/>
-        <resolver mime="text/x-clickapp+xml">
+        <resolver mime="text/x-click-app+xml">
+            <xml-rule>
+                <doctype public-id="-//Apache Software Foundation//DTD Click Configuration 2.2//EN"/>
+            </xml-rule>
+        </resolver>
+    </file>
+    <file>
+        <ext name="xml"/>
+        <resolver mime="text/x-click-app+xml">
             <xml-rule>
                 <doctype public-id="-//Apache Software Foundation//DTD Click Configuration 2.1//EN"/>
             </xml-rule>
@@ -15,9 +23,9 @@ and open the template in the editor.
     </file>
     <file>
         <ext name="xml"/>
-        <resolver mime="text/x-clickapp+xml">
+        <resolver mime="text/x-click-app+xml">
             <xml-rule>
-              <element name="click-app"/>
+                <element name="click-app"/>
             </xml-rule>
         </resolver>
     </file>

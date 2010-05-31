@@ -5,6 +5,7 @@
 
 package org.netbeans.modules.web.click.api.model;
 
+import org.netbeans.modules.web.click.ClickVersion;
 import org.netbeans.modules.xml.xam.dom.DocumentModel;
 
 /**
@@ -14,5 +15,5 @@ import org.netbeans.modules.xml.xam.dom.DocumentModel;
 public interface ClickModel extends DocumentModel<ClickComponent> {
     ClickApp getRootComponent();
     ClickComponentFactory getFactory();
-    
+    ClickVersion getVerison();
 }

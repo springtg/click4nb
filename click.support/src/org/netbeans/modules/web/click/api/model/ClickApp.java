@@ -30,6 +30,7 @@ public interface ClickApp extends ReferenceableClickComponent {
     public static final String PROP_LOG_SERVICE = "log-servie";
     public static final String PROP_FILE_UPLOAD_SERVICE = "file-upload-service";
     public static final String PROP_TEMPLATE_SERVICE = "template-service";
+    public static final String PROP_PAGE_INTERCEPTOR="page-interceptor";
 
     Headers getHeaders();
 
@@ -64,4 +65,9 @@ public interface ClickApp extends ReferenceableClickComponent {
     TemplateService getTemplateService();
 
     void setTemplateService(TemplateService service);
+
+    List<PageInterceptor> getPageInterceptorList();
+
+    void addPageInterceptor(PageInterceptor pi);
+    void removePageInterceptor(PageInterceptor pi);
 }

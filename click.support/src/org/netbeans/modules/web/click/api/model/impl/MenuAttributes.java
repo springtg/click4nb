@@ -13,6 +13,8 @@ import org.netbeans.modules.xml.xam.dom.Attribute;
  * @author hantsy
  */
 public enum  MenuAttributes implements Attribute {
+    ID(MenuComponent.PROP_ID),
+    NAME(MenuComponent.PROP_NAME),
     LABEL(MenuComponent.PROP_LABEL),
     PATH(MenuComponent.PROP_PATH),
     PAGES(MenuComponent.PROP_PAGES),

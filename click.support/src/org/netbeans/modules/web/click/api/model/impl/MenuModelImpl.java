@@ -9,6 +9,7 @@ import java.awt.MenuContainer;
 import java.util.Set;
 import java.util.Set;
 import javax.xml.namespace.QName;
+import org.netbeans.modules.web.click.MenuVersion;
 import org.netbeans.modules.web.click.api.model.MenuComponent;
 import org.netbeans.modules.web.click.api.model.MenuComponentFactory;
 import org.netbeans.modules.web.click.api.model.MenuModel;
@@ -59,6 +60,10 @@ public class MenuModelImpl extends AbstractDocumentModel<MenuComponent> implemen
 
     public MenuComponentFactory getFactory() {
         return factory;
+    }
+
+    public MenuVersion getVersion() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

@@ -145,4 +145,20 @@ public class MenuComponentImpl extends AbstractDocumentComponent<MenuComponent> 
     public void accept(MenuVisitor visitor) {
         visitor.accept(this);
     }
+
+    public String getId() {
+        return super.getAttribute(MenuAttributes.ID);
+    }
+
+    public void setId(String id) {
+        super.setAttribute(PROP_ID, MenuAttributes.ID, id);
+    }
+
+    public String getName() {
+        return super.getAttribute(MenuAttributes.NAME);
+    }
+
+    public void setName(String name) {
+        super.setAttribute(PROP_NAME, MenuAttributes.NAME, name);
+    }
 }

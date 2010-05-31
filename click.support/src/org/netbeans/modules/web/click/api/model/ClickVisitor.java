@@ -40,6 +40,8 @@ public interface ClickVisitor {
 
     void accept(Property component);
 
+    void accept(PageInterceptor component);
+
     public static class Default implements ClickVisitor {
 
         protected void visitChild() {
@@ -102,6 +104,10 @@ public interface ClickVisitor {
         }
 
         public void accept(Excludes component) {
+            visitChild();
+        }
+
+        public void accept(PageInterceptor component) {
             visitChild();
         }
     }

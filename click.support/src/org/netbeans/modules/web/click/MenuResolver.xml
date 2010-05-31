@@ -7,9 +7,17 @@ and open the template in the editor.
 <MIME-resolver>
     <file>
         <ext name="xml"/>
-        <resolver mime="text/x-menu+xml">
+        <resolver mime="text/x-click-menu+xml">
             <xml-rule>
-               <!-- <doctype public-id="-//Apache Software Foundation//DTD Click Menu Configuration 2.1//EN"/>-->
+                <doctype public-id="-//Apache Software Foundation//DTD Click Menu 2.2//EN"/>
+            </xml-rule>
+        </resolver>
+    </file>
+    <file>
+        <ext name="xml"/>
+        <resolver mime="text/x-click-menu+xml">
+            <xml-rule>
+                <!-- <doctype public-id="-//Apache Software Foundation//DTD Click Menu Configuration 2.1//EN"/>-->
                 <element name="menu"/>
             </xml-rule>
         </resolver>
