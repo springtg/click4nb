@@ -16,6 +16,7 @@ import org.netbeans.modules.web.click.api.model.Format;
 import org.netbeans.modules.web.click.api.model.Headers;
 import org.netbeans.modules.web.click.api.model.LogService;
 import org.netbeans.modules.web.click.api.model.Mode;
+import org.netbeans.modules.web.click.api.model.PageInterceptor;
 import org.netbeans.modules.web.click.api.model.Pages;
 import org.netbeans.modules.web.click.api.model.TemplateService;
 import org.w3c.dom.Element;
@@ -160,5 +161,19 @@ public class ClickAppImpl extends ClickComponentImpl implements ClickApp {
 
     public void setLocale(String locale) {
         super.setAttribute(PROP_LOCALE, ClickAttributes.LOCALE, locale);
+    }
+
+    public List<PageInterceptor> getPageInterceptorList() {
+        return super.getChildren(PageInterceptor.class);
+    }
+
+    public void addPageInterceptor(PageInterceptor pi) {
+        Collection<Class<? extends ClickComponent>> list = new ArrayList<Class<? extends ClickComponent>>();
+        list.add(PageInterceptor.class);
+        super.addAfter(PROP_PAGE_INTERCEPTOR, pi, list);//appendChild(PROP_PAGES, pages);
+    }
+
+    public void removePageInterceptor(PageInterceptor pi) {
+        super.removeChild(PROP_PAGE_INTERCEPTOR, pi);
     }
 }

@@ -21,11 +21,11 @@ import org.netbeans.api.project.Sources;
 import org.netbeans.spi.project.ui.templates.support.Templates;
 import org.openide.WizardDescriptor;
 import org.openide.cookies.EditorCookie;
+import org.openide.cookies.OpenCookie;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObject;
-import org.openide.util.RequestProcessor;
 
 public final class NewCayenneModelMapWizardIterator implements WizardDescriptor.InstantiatingIterator {
 
@@ -93,37 +93,24 @@ public final class NewCayenneModelMapWizardIterator implements WizardDescriptor.
         FileObject mapFO = FileUtil.getConfigFile(templateRoot + "cayenneMap.map.xml");
 
         DataObject nodeDO = DataObject.find(nodeFO);
-        DataObject nodeTargetDO = nodeDO.createFromTemplate(df, Templates.getTargetName(wizard));
+        DataObject nodeTargetDO = nodeDO.createFromTemplate(df, Templates.getTargetName(wizard)+"Node.driver", params);
 
         DataObject mapDO = DataObject.find(mapFO);
-        DataObject mapTargetDO = mapDO.createFromTemplate(df, Templates.getTargetName(wizard));
+        DataObject mapTargetDO = mapDO.createFromTemplate(df, Templates.getTargetName(wizard)+"Map.map", params);
 
-
-
-        EditorCookie ec = dObj.getLookup().lookup(EditorCookie.class);
+        OpenCookie ec = dObj.getLookup().lookup(OpenCookie.class);
         if (ec != null) {
             ec.open();
         }
 
         Set<DataObject> doSets = new HashSet<DataObject>();
         doSets.add(dObj);
-        doSets.add(nodeDO);
-        doSets.add(mapDO);
+        doSets.add(nodeTargetDO);
+        doSets.add(mapTargetDO);
 
-        final RequestProcessor.Task task = RequestProcessor.getDefault().create(new Runnable() {
-
-            public void run() {
-                CayenneConfigUtilities.copyLibraries(Templates.getProject(wizard));
-                new Thread(new CayenneModelerLauncher(dObj.getPrimaryFile())).run();
-            }
-        });
-        if (RequestProcessor.getDefault().isRequestProcessorThread()) {
-            task.waitFinished();
-        } else {
-            task.run();
-        }
-
-
+        Project project=Templates.getProject(wizard);
+        CayenneConfigUtilities.copyLibraries(project);
+        
         return Collections.singleton(doSets);
     }
 

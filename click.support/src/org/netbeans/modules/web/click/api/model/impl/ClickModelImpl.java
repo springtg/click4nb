@@ -6,6 +6,7 @@ package org.netbeans.modules.web.click.api.model.impl;
 
 import java.util.Set;
 import javax.xml.namespace.QName;
+import org.netbeans.modules.web.click.ClickVersion;
 import org.netbeans.modules.web.click.api.model.ClickApp;
 import org.netbeans.modules.web.click.api.model.ClickComponent;
 import org.netbeans.modules.web.click.api.model.ClickComponentFactory;
@@ -58,6 +59,10 @@ public class ClickModelImpl extends AbstractDocumentModel<ClickComponent> implem
     @Override
     public Set<QName> getQNames() {
         return ClickQNames.getMappedQNames();
+    }
+
+    public ClickVersion getVerison() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 

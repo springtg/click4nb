@@ -30,7 +30,15 @@ public interface MenuComponent extends DocumentComponent<MenuComponent>{
     public static final String PROP_SPARATOR="separator";
     public static final String PROP_ROLES="roles";
     public static final String PROP_PAGES="pages";
+    public static final String PROP_ID="id";
+    public static final String PROP_NAME="name";
 
+    String getId();
+    void setId(String id);
+
+    String getName();
+    void setName(String name);
+    
     String getLabel();
     void setLabel(String value);
 

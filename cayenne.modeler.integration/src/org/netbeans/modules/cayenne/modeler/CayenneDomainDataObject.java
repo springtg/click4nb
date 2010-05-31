@@ -5,6 +5,7 @@
 package org.netbeans.modules.cayenne.modeler;
 
 import java.io.IOException;
+import org.openide.cookies.OpenCookie;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataNode;
 import org.openide.loaders.DataObjectExistsException;
@@ -21,7 +22,7 @@ public class CayenneDomainDataObject extends MultiDataObject {
     public CayenneDomainDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
         CookieSet cookies = getCookieSet();
-        cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
+        cookies.add(new Opener());
     }
 
     @Override
@@ -32,5 +33,24 @@ public class CayenneDomainDataObject extends MultiDataObject {
     @Override
     public Lookup getLookup() {
         return getCookieSet().getLookup();
+    }
+
+    public void editorInitialized(CayenneModelerTopComponent ed) {
+        Opener op = getLookup().lookup(Opener.class);
+        op.editor = ed;
+    }
+
+    class Opener implements OpenCookie {
+
+        public CayenneModelerTopComponent editor;
+
+        @Override
+        public void open() {
+            if (editor == null) {
+                editor = new CayenneModelerTopComponent(CayenneDomainDataObject.this);
+            }
+            editor.open();
+            editor.requestActive();
+        }
     }
 }

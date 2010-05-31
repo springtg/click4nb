@@ -12,6 +12,7 @@ import javax.xml.namespace.QName;
 import org.netbeans.modules.web.click.api.model.ClickApp;
 import org.netbeans.modules.web.click.api.model.Controls;
 import org.netbeans.modules.web.click.api.model.Headers;
+import org.netbeans.modules.web.click.api.model.PageInterceptor;
 import org.netbeans.modules.web.click.api.model.Pages;
 import org.netbeans.modules.web.click.api.model.ServiceComponent;
 
@@ -30,6 +31,7 @@ public enum ClickQNames {
     FILE_UPLOAD_SERVICE(ClickApp.PROP_FILE_UPLOAD_SERVICE),
     LOG_SERVICE(ClickApp.PROP_LOG_SERVICE),
     TEMPLATE_SERVICE(ClickApp.PROP_TEMPLATE_SERVICE),
+    PAGE_INTERCEPTOR(ClickApp.PROP_PAGE_INTERCEPTOR),
     HEADER(Headers.PROP_HEADER),
     PAGE(Pages.PROP_PAGE),
     EXCLUDES(Pages.PROP_EXCLUDES),
@@ -55,6 +57,7 @@ public enum ClickQNames {
         mappedQNames.add(FILE_UPLOAD_SERVICE.getQName());
         mappedQNames.add(TEMPLATE_SERVICE.getQName());
         mappedQNames.add(PROPERTY.getQName());
+        mappedQNames.add(PAGE_INTERCEPTOR.getQName());
 
     }
 

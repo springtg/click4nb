@@ -10,7 +10,7 @@
     </folder>
     <folder name="Loaders">
         <folder name="text">
-            <folder name="x-clickapp+xml">
+            <folder name="x-click-app+xml">
                 <folder name="Actions">
                     <file name="org-openide-actions-CopyAction.instance">
                         <attr name="position" intvalue="400"/>
@@ -65,11 +65,11 @@
                         <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/netbeans/modules/web/click/resources/click-icon.png"/>
                         <attr name="dataObjectClass" stringvalue="org.netbeans.modules.web.click.ClickDataObject"/>
                         <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
-                        <attr name="mimeType" stringvalue="text/x-clickapp+xml"/>
+                        <attr name="mimeType" stringvalue="text/x-click-app+xml"/>
                     </file>
                 </folder>
             </folder>
-            <folder name="x-menu+xml">
+            <folder name="x-click-menu+xml">
                 <folder name="Actions">
                     <file name="org-openide-actions-CopyAction.instance">
                         <attr name="position" intvalue="400"/>
@@ -124,7 +124,7 @@
                         <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/openide/loaders/xmlObject.gif"/>
                         <attr name="dataObjectClass" stringvalue="org.netbeans.modules.web.click.MenuDataObject"/>
                         <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
-                        <attr name="mimeType" stringvalue="text/x-menu+xml"/>
+                        <attr name="mimeType" stringvalue="text/x-click-menu+xml"/>
                     </file>
                 </folder>
             </folder>
@@ -323,7 +323,7 @@
                     </folder>
                 </folder>
             </folder>-->
-            <folder name="x-clickapp+xml">
+            <folder name="x-click-app+xml">
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.modules.web.click.Bundle"/>
                 <folder name="HyperlinkProviders">
                     <file name="org-netbeans-modules-web-click-editor-hyperlinks-ClickHyperlinkProvider.instance">
@@ -373,7 +373,7 @@
                     </folder>
                 </folder>
             </folder>
-            <folder name="x-menu+xml">
+            <folder name="x-click-menu+xml">
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.modules.web.click.Bundle"/>
                 <folder name="HyperlinkProviders">
                     <file name="org-netbeans-modules-web-click-editor-hyperlinks-MenuHyperlinkProvider.instance">

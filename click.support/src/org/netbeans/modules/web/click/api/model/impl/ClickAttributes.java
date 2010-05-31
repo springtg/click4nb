@@ -9,6 +9,7 @@ import org.netbeans.modules.web.click.api.model.ClickApp;
 import org.netbeans.modules.web.click.api.model.Excludes;
 import org.netbeans.modules.web.click.api.model.Header;
 import org.netbeans.modules.web.click.api.model.Page;
+import org.netbeans.modules.web.click.api.model.PageInterceptor;
 import org.netbeans.modules.web.click.api.model.Pages;
 import org.netbeans.modules.web.click.api.model.Property;
 import org.netbeans.modules.xml.xam.Named;
@@ -30,8 +31,9 @@ public enum ClickAttributes implements Attribute {
     PATH(Page.PROP_PATH),
     VALUE(Property.PROP_VALUE),
     TYPE(Header.PROP_TYPE),
-    PATTERN(Excludes.PROP_PATTERN)
-    ;
+    PATTERN(Excludes.PROP_PATTERN),
+    SCOPE(PageInterceptor.PROP_SCOPE);
+    
     private String name;
     private Class type;
 
