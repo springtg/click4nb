@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
+    <folder name="Actions">
+        <folder name="Edit">
+            <file name="org-netbeans-modules-cayenne-modeler-OpenCayenneModelerAction.instance">
+                <attr name="delegate" methodvalue="org.openide.awt.Actions.inject"/>
+                <attr name="displayName" bundlevalue="org.netbeans.modules.cayenne.modeler.Bundle#CTL_OpenCayenneModelerAction"/>
+                <attr name="iconBase" stringvalue="org/netbeans/modules/cayenne/modeler/resource/cayenne-16.png"/>
+                <attr name="injectable" stringvalue="org.netbeans.modules.cayenne.modeler.OpenCayenneModelerAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.context"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+                <attr name="selectionType" stringvalue="EXACTLY_ONE"/>
+                <attr name="type" stringvalue="org.openide.loaders.DataObject"/>
+            </file>
+        </folder>
+    </folder>
     <folder name="Loaders">
         <folder name="text">
             <folder name="x-cayenne-domain+xml">
                 <folder name="Actions">
+                    <file name="org-netbeans-modules-cayenne-modeler-OpenCayenneModelerAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-netbeans-modules-cayenne-modeler-OpenCayenneModelerAction.instance"/>
+                        <attr name="position" intvalue="150"/>
+                    </file>
                     <file name="org-openide-actions-CopyAction.shadow">
                         <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CopyAction.instance"/>
                         <attr name="position" intvalue="400"/>
@@ -75,7 +93,7 @@
     </folder>
     <folder name="Services">
         <folder name="MIMEResolver">
-            <file name="CayenneCatalogResolver.xml" url="CayenneCatalogResolver.xml">
+            <file name="CayenneCatalogResolver.xml" url="CayenneResolver.xml">
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.modules.cayenne.modeler.Bundle"/>
                 <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/netbeans/modules/cayenne/modeler/resource/cayenne.png"/>
             </file>

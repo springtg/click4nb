@@ -22,7 +22,7 @@ public class CayenneDomainDataObject extends MultiDataObject {
     public CayenneDomainDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
         CookieSet cookies = getCookieSet();
-        cookies.add(new Opener());
+       // cookies.add(new Opener());
     }
 
     @Override

@@ -20,7 +20,6 @@ import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
 import org.netbeans.spi.project.ui.templates.support.Templates;
 import org.openide.WizardDescriptor;
-import org.openide.cookies.EditorCookie;
 import org.openide.cookies.OpenCookie;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -43,7 +42,7 @@ public final class NewCayenneModelMapWizardIterator implements WizardDescriptor.
         SourceGroup[] groups = sources.getSourceGroups(Sources.TYPE_GENERIC);
 
         WizardDescriptor.Panel filePanel;
-        filePanel = Templates.createSimpleTargetChooser(project, groups, null);
+        filePanel = Templates.buildSimpleTargetChooser(project, groups).create();
 
 
         if (panels == null) {

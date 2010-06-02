@@ -23,7 +23,7 @@ import org.openide.util.Exceptions;
  */
 public class CayenneConfigUtilities {
 
-    private static final String CAYENNE_LIB_NAME = "ayenne-library";
+    private static final String CAYENNE_LIB_NAME = "cayenne-library";
 
     public static void copyLibraries(Project project) {
         Sources sources = ProjectUtils.getSources(project);

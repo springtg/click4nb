@@ -5,6 +5,7 @@
 package org.netbeans.modules.cayenne.modeler;
 
 import java.awt.BorderLayout;
+import java.io.File;
 import org.apache.cayenne.modeler.Application;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
@@ -34,11 +35,27 @@ public final class CayenneModelerTopComponent extends TopComponent {
     }
 
     private void init(CayenneDomainDataObject cayenneDO) {
+        System.out.println(">>>>init called in CayenneModelerTC");
         associateLookup(cayenneDO.getLookup());
         Application app = new Application(FileUtil.toFile(cayenneDO.getPrimaryFile()));
         app.startup();
-        add(app.getFrame(), BorderLayout.CENTER);
+        add(app.getFrameController().getView(), BorderLayout.CENTER);
         cayenneDO.editorInitialized(this);
+    }
+
+    class ApplicationWrapper {
+         Application instance;
+         ApplicationWrapper(Application instance) {
+             this.instance=instance;
+        }
+
+         void openProejctFile(File projectFile){
+            if(instance!=null){
+                new Thread(
+                // instance.
+                ).run();
+            }
+         }
     }
 
     /** This method is called from within the constructor to
@@ -54,7 +71,6 @@ public final class CayenneModelerTopComponent extends TopComponent {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-
     @Override
     public int getPersistenceType() {
         return TopComponent.PERSISTENCE_NEVER;
@@ -69,7 +85,6 @@ public final class CayenneModelerTopComponent extends TopComponent {
     public void componentClosed() {
         // TODO add custom code on component closing
     }
-
 
     private void readPropertiesImpl(java.util.Properties p) {
         String version = p.getProperty("version");
